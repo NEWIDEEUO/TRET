@@ -29,11 +29,7 @@ function initializeEventListeners() {
     const orderForm = document.getElementById('orderForm');
     orderForm.addEventListener('submit', handleOrderSubmission);
 
-    // Color selection
-    const colorOptions = document.querySelectorAll('.color-option');
-    colorOptions.forEach(option => {
-        option.addEventListener('click', () => selectColor(option));
-    });
+    // Remove color selection (no longer needed)
 
     // Wilaya selection for summary update
     const wilayaSelect = document.getElementById('wilaya');
@@ -96,29 +92,7 @@ function changeQuantity(change) {
     updateOrderSummary();
 }
 
-/**
- * Handle color selection
- * @param {HTMLElement} selectedOption - The selected color option
- */
-function selectColor(selectedOption) {
-    // Remove selected class from all options
-    document.querySelectorAll('.color-option').forEach(option => {
-        option.classList.remove('selected');
-        option.querySelector('input').checked = false;
-    });
-    
-    // Add selected class to clicked option
-    selectedOption.classList.add('selected');
-    selectedOption.querySelector('input').checked = true;
-    
-    // Update price if different colors have different prices
-    const newPrice = selectedOption.dataset.price;
-    if (newPrice) {
-        PRODUCT_CONFIG.basePrice = parseInt(newPrice);
-        updatePriceDisplay();
-        updateOrderSummary();
-    }
-}
+// Color selection function removed - not needed for this product
 
 /**
  * Update price display
