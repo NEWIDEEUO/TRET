@@ -260,11 +260,8 @@ async function handleOrderSubmission(event) {
         setTimeout(() => {
             form.reset();
             updateOrderSummary();
-            // Reset color selection to first option
-            const firstColorOption = document.querySelector('.color-option');
-            if (firstColorOption) {
-                selectColor(firstColorOption);
-            }
+            // Reset quantity to 1
+            document.getElementById('quantity').value = 1;
         }, 2000);
         
     } catch (error) {
@@ -447,7 +444,6 @@ document.addEventListener('DOMContentLoaded', initializePriceAnimations);
 window.ProductLandingPage = {
     changeMainImage,
     changeQuantity,
-    selectColor,
     updateOrderSummary,
     showModal,
     closeModal
