@@ -700,20 +700,26 @@ body {
     .rating {
         order: 2;
         flex-direction: row;
-        gap: 5px;
+        gap: 8px;
         flex: 0 0 auto;
         text-align: left;
         max-width: 120px;
         font-size: 14px;
+        align-items: center;
     }
     
     .rating .stars {
-        font-size: 14px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
     }
     
     .rating .rating-text {
-        font-size: 13px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e3c72;
         white-space: nowrap;
+        line-height: 1;
     }
     
     .form-row {
@@ -804,16 +810,18 @@ body {
     }
     
     .rating {
-        max-width: 100px;
+        max-width: 110px;
         font-size: 12px;
+        gap: 6px;
     }
     
     .rating .stars {
-        font-size: 12px;
+        font-size: 14px;
     }
     
     .rating .rating-text {
-        font-size: 11px;
+        font-size: 14px;
+        font-weight: 600;
     }
     
     .top-banner {
