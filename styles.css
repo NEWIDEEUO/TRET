@@ -21,10 +21,10 @@ body {
 
 /* Header Styles */
 .header {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    background: linear-gradient(135deg, #ff4757, #ff3838);
     color: white;
-    padding: 15px 0;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    box-shadow: 0 4px 25px rgba(255, 71, 87, 0.3);
 }
 
 .top-banner {
@@ -32,17 +32,25 @@ body {
     align-items: center;
     justify-content: space-between;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .banner-content, .banner-extra {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .banner-content i, .banner-extra i {
-    font-size: 16px;
+    font-size: 18px;
     color: #ffd700;
 }
 
@@ -71,6 +79,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
 }
 
 .main-image-container {
@@ -94,12 +103,12 @@ body {
 /* External Discount Badge */
 .discount-badge-external {
     position: absolute;
-    top: 5px;
+    top: 50px;
     right: 20px;
     background: linear-gradient(135deg, #ff4757, #ff3838);
     color: white;
-    padding: 15px 22px;
-    border-radius: 30px;
+    padding: 15px 20px;
+    border-radius: 50px;
     font-weight: bold;
     text-align: center;
     box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
@@ -108,9 +117,11 @@ body {
     flex-direction: column;
     align-items: center;
     border: 3px solid white;
-    min-height: 60px;
-    min-width: 80px;
+    min-height: 70px;
+    min-width: 85px;
     justify-content: center;
+    transform: rotate(-5deg);
+    animation: pulse-badge 2s infinite;
 }
 
 .discount-percentage {
@@ -603,8 +614,18 @@ body {
         padding: 0 15px;
     }
     
+    .top-banner {
+        flex-direction: column;
+        gap: 15px;
+        font-size: 14px;
+    }
+    
+    .banner-content, .banner-extra {
+        padding: 10px 15px;
+    }
+    
     .banner-extra {
-        display: none;
+        display: flex;
     }
     
     .product-layout {
@@ -614,9 +635,12 @@ body {
     }
     
     .discount-badge-external {
-        top: -10px;
+        top: 40px;
         right: 15px;
-        padding: 10px 16px;
+        padding: 12px 18px;
+        min-height: 60px;
+        min-width: 75px;
+        transform: rotate(-3deg);
     }
     
     .discount-percentage {
@@ -812,6 +836,21 @@ body {
         transform: scale(1.05);
     }
     100% {
+        box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+    }
+}
+
+@keyframes pulse-badge {
+    0% {
+        transform: rotate(-5deg) scale(1);
+        box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+    }
+    50% {
+        transform: rotate(-5deg) scale(1.1);
+        box-shadow: 0 12px 30px rgba(255, 71, 87, 0.6);
+    }
+    100% {
+        transform: rotate(-5deg) scale(1);
         box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
     }
 }
