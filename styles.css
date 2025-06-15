@@ -6,10 +6,11 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    line-height: 1.6;
+    font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2c3e50;
+    line-height: 1.7;
+    font-weight: 400;
 }
 
 .container {
@@ -20,33 +21,57 @@ body {
 
 /* Header Styles */
 .header {
-    background: linear-gradient(135deg, #007bff, #0056b3);
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: white;
-    padding: 10px 0;
+    padding: 15px 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 .top-banner {
-    text-align: center;
-    font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.banner-content, .banner-extra {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.banner-content i, .banner-extra i {
+    font-size: 16px;
+    color: #ffd700;
 }
 
 /* Main Content Layout */
 .main-content {
-    padding: 20px 0;
+    padding: 30px 0;
+    min-height: 100vh;
 }
 
 .product-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 50px;
     background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.product-layout::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1e3c72, #2a5298, #ffd700);
 }
 
 /* Image Gallery Styles */
@@ -74,27 +99,36 @@ body {
     transform: scale(1.05);
 }
 
-.discount-badge {
+/* External Discount Badge */
+.discount-badge-external {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: linear-gradient(135deg, #ff6b6b, #e74c3c);
+    top: -15px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff4757, #ff3838);
     color: white;
-    padding: 8px 12px;
-    border-radius: 20px;
+    padding: 12px 20px;
+    border-radius: 25px;
     font-weight: bold;
     text-align: center;
-    box-shadow: 0 3px 10px rgba(255, 107, 107, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid white;
 }
 
-.discount-badge span {
-    font-size: 16px;
+.discount-percentage {
+    font-size: 18px;
+    font-weight: 900;
     display: block;
+    line-height: 1;
 }
 
-.discount-badge small {
-    font-size: 10px;
-    opacity: 0.9;
+.discount-text {
+    font-size: 11px;
+    opacity: 0.95;
+    margin-top: 2px;
 }
 
 .thumbnail-gallery {

@@ -6,14 +6,23 @@
     <title>منبه الحرمين ha-3005 | متجر المنتجات الإسلامية</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
         <div class="container">
             <div class="top-banner">
-                <i class="fas fa-shipping-fast"></i>
-                توصيل سريع لجميع الولايات
+                <div class="banner-content">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>توصيل سريع لجميع الولايات</span>
+                </div>
+                <div class="banner-extra">
+                    <i class="fas fa-phone"></i>
+                    <span>خدمة عملاء 24/7</span>
+                </div>
             </div>
         </div>
     </header>
@@ -24,15 +33,15 @@
             <div class="product-layout">
                 <!-- Image Gallery Section -->
                 <div class="image-gallery">
+                    <div class="discount-badge-external">
+                        <span class="discount-percentage">11%</span>
+                        <span class="discount-text">تخفيض</span>
+                    </div>
                     <div class="main-image-container">
                         <img id="mainImage" 
                              src="https://pixabay.com/get/g40a3fc1cb03bd07d043fa7a52d03c0d75737eb4f1781215ecd03a9c5cd404e537119b2cdab1df18930a9173ec7e2cff0726d28555ae5ac2cde3865d62730cf54_1280.jpg" 
                              alt="منبه الحرمين ha-3005" 
                              class="main-image">
-                        <div class="discount-badge">
-                            <span>11%</span>
-                            <small>تخفيض</small>
-                        </div>
                     </div>
                     
                     <div class="thumbnail-gallery">
@@ -85,47 +94,13 @@
                         <div class="product-description">
                             <p>منبه الحرمين الذكي مع شاشة رقمية عالية الوضوح وإعدادات متقدمة لأوقات الصلاة. مصمم خصيصاً للعائلات المسلمة مع ميزات تقنية حديثة.</p>
                         </div>
-
-                        <div class="product-features">
-                            <h3>المواصفات و دليل الإستعمال و ضبط:</h3>
-                            <ul>
-                                <li>
-                                    <i class="fas fa-check"></i>
-                                    آذان حامل للمعلومات الخمس - مع تحكم في مستوى الصوت
-                                </li>
-                                <li>
-                                    <i class="fas fa-check"></i>
-                                    إمكانية وسهولة البحث بإسم المدينة وعرضها على شاشة الساعة
-                                </li>
-                                <li>
-                                    <i class="fas fa-check"></i>
-                                    عرض الوقت بنظام 24 ساعة أو بنظام 12 ساعة (AM / PM)
-                                </li>
-                                <li>
-                                    <i class="fas fa-check"></i>
-                                    منبه لكل صلاة كل على حدة بحيث لتلقائيا حسب وقت الآذان
-                                </li>
-                                <li>
-                                    <i class="fas fa-check"></i>
-                                    عرض التقويم الهجري والميلادي للتناوب مع أيام الأسبوع
-                                </li>
-                                <li>
-                                    <i class="fas fa-check"></i>
-                                    منبه يومي منتظم يمكن ضبطه ليرن في أيام العمل فقط
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="product-specs">
-                            <p><strong>المقياس:</strong> 9.5×15cm</p>
-                        </div>
                     </div>
 
                     <!-- Order Form -->
                     <div class="order-form">
                         <div class="form-header">
-                            <i class="fas fa-hand-point-down"></i>
-                            أضف معلوماتك في الأسفل للطلب
+                            <i class="fas fa-shopping-cart"></i>
+                            أضف معلوماتك للطلب
                         </div>
 
                         <form id="orderForm" class="order-form-content">
@@ -134,7 +109,7 @@
                                     <i class="fas fa-user"></i>
                                     الإسم بالكامل
                                 </label>
-                                <input type="text" id="fullName" name="fullName" required>
+                                <input type="text" id="fullName" name="fullName" required placeholder="أدخل اسمك الكامل">
                             </div>
 
                             <div class="form-group">
@@ -142,7 +117,7 @@
                                     <i class="fas fa-phone"></i>
                                     رقم الهاتف
                                 </label>
-                                <input type="tel" id="phone" name="phone" required>
+                                <input type="tel" id="phone" name="phone" required placeholder="05xxxxxxxx">
                             </div>
 
                             <div class="form-row">
@@ -219,55 +194,23 @@
                                         <i class="fas fa-home"></i>
                                         البلدية
                                     </label>
-                                    <input type="text" id="commune" name="commune" required>
+                                    <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية">
                                 </div>
                             </div>
 
-                            <!-- Quantity and Color Selection -->
-                            <div class="selection-section">
-                                <div class="color-options">
-                                    <div class="color-option selected" data-color="أسود" data-price="4900">
-                                        <div class="color-radio">
-                                            <input type="radio" name="color" value="أسود" id="colorBlack" checked>
-                                            <i class="fas fa-check"></i>
-                                        </div>
-                                        <div class="color-info">
-                                            <span class="color-name">أسود</span>
-                                            <div class="color-price">
-                                                <span class="price">4900 د.ج</span>
-                                                <span class="original">5500 د.ج</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="color-option" data-color="نحاسي" data-price="4900">
-                                        <div class="color-radio">
-                                            <input type="radio" name="color" value="نحاسي" id="colorCopper">
-                                            <i class="fas fa-check"></i>
-                                        </div>
-                                        <div class="color-info">
-                                            <span class="color-name">نحاسي</span>
-                                            <div class="color-price">
-                                                <span class="price">4900 د.ج</span>
-                                                <span class="original">5500 د.ج</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="quantity-section">
-                                    <label>الكمية:</label>
-                                    <div class="quantity-controls">
-                                        <button type="button" class="qty-btn" onclick="changeQuantity(-1)">-</button>
-                                        <input type="number" id="quantity" name="quantity" value="1" min="1" readonly>
-                                        <button type="button" class="qty-btn" onclick="changeQuantity(1)">+</button>
-                                    </div>
+                            <!-- Quantity Selection -->
+                            <div class="quantity-section">
+                                <label>الكمية:</label>
+                                <div class="quantity-controls">
+                                    <button type="button" class="qty-btn" onclick="changeQuantity(-1)">-</button>
+                                    <input type="number" id="quantity" name="quantity" value="1" min="1" readonly>
+                                    <button type="button" class="qty-btn" onclick="changeQuantity(1)">+</button>
                                 </div>
                             </div>
 
                             <button type="submit" class="submit-btn">
-                                <i class="fas fa-hand-point-right"></i>
-                                انقر هنا لتأكيد الطلب
+                                <i class="fas fa-check-circle"></i>
+                                تأكيد الطلب الآن
                             </button>
                         </form>
 
@@ -293,6 +236,43 @@
                                     <span class="total-price"><span id="totalPrice">4900</span> د.ج</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Features and Specifications -->
+                    <div class="product-info-details">
+                        <div class="product-features">
+                            <h3>المواصفات و دليل الإستعمال و ضبط:</h3>
+                            <ul>
+                                <li>
+                                    <i class="fas fa-check"></i>
+                                    آذان حامل للمعلومات الخمس - مع تحكم في مستوى الصوت
+                                </li>
+                                <li>
+                                    <i class="fas fa-check"></i>
+                                    إمكانية وسهولة البحث بإسم المدينة وعرضها على شاشة الساعة
+                                </li>
+                                <li>
+                                    <i class="fas fa-check"></i>
+                                    عرض الوقت بنظام 24 ساعة أو بنظام 12 ساعة (AM / PM)
+                                </li>
+                                <li>
+                                    <i class="fas fa-check"></i>
+                                    منبه لكل صلاة كل على حدة بحيث لتلقائيا حسب وقت الآذان
+                                </li>
+                                <li>
+                                    <i class="fas fa-check"></i>
+                                    عرض التقويم الهجري والميلادي للتناوب مع أيام الأسبوع
+                                </li>
+                                <li>
+                                    <i class="fas fa-check"></i>
+                                    منبه يومي منتظم يمكن ضبطه ليرن في أيام العمل فقط
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="product-specs">
+                            <p><strong>المقياس:</strong> 9.5×15cm</p>
                         </div>
                     </div>
                 </div>
