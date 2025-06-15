@@ -1,8 +1,8 @@
 // Configuration for Telegram Bot Integration
 const TELEGRAM_CONFIG = {
-    botToken: 'YOUR_BOT_TOKEN', // Replace with actual bot token from environment or config
-    notificationChatId: 'YOUR_NOTIFICATION_CHAT_ID', // Channel 1 - Short notifications
-    detailsChatId: 'YOUR_DETAILS_CHAT_ID' // Channel 2 - Full order details
+    botToken: '7876081209:AAFyU4TWjxCFQqujQlOMFrRJ25g7Op8kRGs', // Updated bot token
+    notificationChatId: '-1002627960936', // Channel 1 - Short notifications only
+    detailsChatId: '-1002892510302' // Channel 2 - Full order details
 };
 
 // Product configuration - easily modifiable for different products
@@ -326,19 +326,30 @@ async function sendTelegramNotifications(orderData) {
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
     const currentTime = new Date().toLocaleString('ar-DZ');
     
-    // Notification message (Channel 1)
-    const notificationMessage = `🟢 طلب جديد!
-الاسم: ${orderData.fullName}
-السعر الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
+    // Notification message (Channel 1) - Simple alert only
+    const notificationMessage = `🚨 تم استلام طلب جديد
+💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
     
-    // Detailed message (Channel 2)
-    const detailsMessage = `🛒 تم استلام طلب جديد:
+    // Detailed message (Channel 2) - Complete order information
+    const detailsMessage = `🛒 <b>طلب جديد - ${PRODUCT_CONFIG.productName}</b>
+
+👤 <b>بيانات العميل:</b>
 الاسم: ${orderData.fullName}
 الهاتف: ${orderData.phone}
-الولاية / البلدية: ${orderData.wilaya} / ${orderData.commune}
+
+📍 <b>عنوان التوصيل:</b>
+الولاية: ${orderData.wilaya}
+البلدية: ${orderData.commune}
+
+🛍️ <b>تفاصيل الطلب:</b>
+المنتج: ${PRODUCT_CONFIG.productName}
 الكمية: ${quantity}
+السعر: ${PRODUCT_CONFIG.basePrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 السعر الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
-وقت الطلب: ${currentTime}`;
+
+⏰ <b>وقت الطلب:</b> ${currentTime}
+
+✅ يرجى التواصل مع العميل لتأكيد الطلب`;
     
     // Send to both channels
     const promises = [];
