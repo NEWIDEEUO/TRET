@@ -326,8 +326,9 @@ async function sendTelegramNotifications(orderData) {
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
     const currentTime = new Date().toLocaleString('ar-DZ');
     
-    // Notification message (Channel 1) - Simple alert only
+    // Notification message (Channel 1) - Simple alert with customer name
     const notificationMessage = `🚨 تم استلام طلب جديد
+👤 العميل: ${orderData.fullName}
 💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
     
     // Detailed message (Channel 2) - Complete order information
