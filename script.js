@@ -14,6 +14,12 @@ const PRODUCT_CONFIG = {
     currency: 'د.ج'
 };
 
+// Anti-spam configuration
+const SPAM_PROTECTION = {
+    cooldownTime: 60000, // 1 minute cooldown between orders
+    lastOrderTime: 'lastOrderTimestamp'
+};
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
@@ -154,10 +160,18 @@ function validateField(event) {
             break;
             
         case 'phone':
-            const phoneRegex = /^(0[5-7]\d{8}|(\+213|213)[5-7]\d{8})$/;
-            if (!phoneRegex.test(value.replace(/\s/g, ''))) {
+            // Enhanced phone validation: 10 digits starting with 05, 06, or 07
+            const phoneRegex = /^0[567]\d{8}$/;
+            const cleanPhone = value.replace(/\s/g, '');
+            if (!phoneRegex.test(cleanPhone)) {
                 isValid = false;
-                errorMessage = 'رقم الهاتف غير صحيح';
+                if (cleanPhone.length !== 10) {
+                    errorMessage = 'رقم الهاتف يجب أن يحتوي على 10 أرقام';
+                } else if (!cleanPhone.startsWith('05') && !cleanPhone.startsWith('06') && !cleanPhone.startsWith('07')) {
+                    errorMessage = 'رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07';
+                } else {
+                    errorMessage = 'رقم الهاتف غير صحيح';
+                }
             }
             break;
             
@@ -237,6 +251,11 @@ async function handleOrderSubmission(event) {
     const form = event.target;
     const submitBtn = form.querySelector('.submit-btn');
     
+    // Check for spam protection
+    if (!checkSpamProtection()) {
+        return;
+    }
+    
     // Validate all fields
     const formData = new FormData(form);
     const orderData = Object.fromEntries(formData);
@@ -252,6 +271,9 @@ async function handleOrderSubmission(event) {
     try {
         // Send to Telegram channels
         await sendTelegramNotifications(orderData);
+        
+        // Set spam protection timestamp
+        localStorage.setItem(SPAM_PROTECTION.lastOrderTime, Date.now().toString());
         
         // Show success message
         showModal('تم إرسال طلبك بنجاح!', 'success');
@@ -437,8 +459,77 @@ function initializePriceAnimations() {
     });
 }
 
+/**
+ * Check spam protection - prevent duplicate orders within cooldown period
+ * @returns {boolean} - Whether the user can submit an order
+ */
+function checkSpamProtection() {
+    const lastOrderTime = localStorage.getItem(SPAM_PROTECTION.lastOrderTime);
+    
+    if (lastOrderTime) {
+        const timeDiff = Date.now() - parseInt(lastOrderTime);
+        const remainingTime = SPAM_PROTECTION.cooldownTime - timeDiff;
+        
+        if (remainingTime > 0) {
+            const remainingSeconds = Math.ceil(remainingTime / 1000);
+            showModal(`تم تقديم طلب مسبقاً. يرجى الانتظار ${remainingSeconds} ثانية قبل تقديم طلب جديد.`, 'error');
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+/**
+ * Scroll to order form when floating button is clicked
+ */
+function scrollToOrderForm() {
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+        
+        // Focus on first input field
+        setTimeout(() => {
+            const firstInput = orderForm.querySelector('input[type="text"]');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 500);
+    }
+}
+
+/**
+ * Hide floating button when user is near the form
+ */
+function handleFloatingButtonVisibility() {
+    const floatingBtn = document.getElementById('floatingOrderBtn');
+    const orderForm = document.getElementById('orderForm');
+    
+    if (!floatingBtn || !orderForm) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                floatingBtn.style.display = 'none';
+            } else {
+                floatingBtn.style.display = 'flex';
+            }
+        });
+    }, {
+        threshold: 0.3
+    });
+    
+    observer.observe(orderForm);
+}
+
 // Initialize price animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', initializePriceAnimations);
+
+// Initialize floating button visibility handler
+document.addEventListener('DOMContentLoaded', handleFloatingButtonVisibility);
 
 // Export functions for external use if needed
 window.ProductLandingPage = {
@@ -446,5 +537,6 @@ window.ProductLandingPage = {
     changeQuantity,
     updateOrderSummary,
     showModal,
-    closeModal
+    closeModal,
+    scrollToOrderForm
 };
