@@ -265,7 +265,7 @@ function handleWilayaChange() {
     updateOrderSummary();
 }
 
-// DELIVERY TYPE SELECTION - WITH VISUAL FEEDBACK
+// DELIVERY TYPE SELECTION - WITH PERSISTENT VISUAL FEEDBACK
 function selectDeliveryType(selectedOption) {
     console.log('Delivery type selected:', selectedOption.dataset.type);
     
@@ -275,7 +275,7 @@ function selectDeliveryType(selectedOption) {
         option.classList.remove('active');
     });
     
-    // Add active class to selected option with visual feedback
+    // Add active class to selected option with persistent shadow effect
     selectedOption.classList.add('active');
     
     // Add temporary selection animation

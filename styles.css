@@ -585,7 +585,7 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) translateY(-20px);
+    transform: translate(-50%, -50%) translateY(-10px);
     padding: 14px 18px;
     border-radius: 12px;
     width: 60%;
@@ -716,15 +716,15 @@ body {
     border-color: #007bff;
     background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
     color: white;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3), 0 3px 8px rgba(0, 123, 255, 0.2);
-    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4), 0 0 0 2px rgba(0, 123, 255, 0.3);
+    transform: translateY(-2px);
     font-weight: 600;
 }
 
 .delivery-option[data-type="home"].active {
     border-color: #28a745;
     background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3), 0 3px 8px rgba(40, 167, 69, 0.2);
+    box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4), 0 0 0 2px rgba(40, 167, 69, 0.3);
 }
 
 .delivery-option.active i {
