@@ -79,6 +79,7 @@ This is a responsive Arabic landing page template for product sales with integra
 
 ## Changelog
 - June 25, 2025. Initial setup
+- June 25, 2025. Updated product from alarm clock to men's sandals with new content and pricing (2500/2800 DA)
 
 ## User Preferences
 

@@ -7,8 +7,8 @@ const TELEGRAM_CONFIG = {
 
 // Product configuration - easily modifiable for different products
 const PRODUCT_CONFIG = {
-    basePrice: 4900,
-    originalPrice: 5500,
+    basePrice: 2500,
+    originalPrice: 2800,
     discountPercentage: 11,
     productName: 'صندال رجالي عصري 2 في واحد',
     currency: 'د.ج'
