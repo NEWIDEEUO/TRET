@@ -265,7 +265,7 @@ function handleWilayaChange() {
     updateOrderSummary();
 }
 
-// DELIVERY TYPE SELECTION - COMPACT AND ELEGANT
+// DELIVERY TYPE SELECTION - WITH VISUAL FEEDBACK
 function selectDeliveryType(selectedOption) {
     console.log('Delivery type selected:', selectedOption.dataset.type);
     
@@ -275,8 +275,13 @@ function selectDeliveryType(selectedOption) {
         option.classList.remove('active');
     });
     
-    // Add active class to selected option
+    // Add active class to selected option with visual feedback
     selectedOption.classList.add('active');
+    
+    // Add temporary selection animation
+    selectedOption.style.animation = 'none';
+    selectedOption.offsetHeight; // Trigger reflow
+    selectedOption.style.animation = 'pulse-icon 0.6s ease-out';
     
     // Update delivery price and summary
     updateDeliveryPrice();
