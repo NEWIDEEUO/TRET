@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
     updatePriceDisplay();
     updateOrderSummary();
+    initializePriceAnimations();
 });
 
 /**
@@ -99,9 +100,7 @@ function initializeEventListeners() {
     const orderForm = document.getElementById('orderForm');
     orderForm.addEventListener('submit', handleOrderSubmission);
 
-    // Wilaya selection for summary update
-    const wilayaSelect = document.getElementById('wilaya');
-    wilayaSelect.addEventListener('change', updateOrderSummary);
+    // No additional listeners needed - handleWilayaChange is called via onchange attribute
 
     // Quantity change listeners
     const quantityInput = document.getElementById('quantity');
@@ -171,6 +170,7 @@ function selectColor(selectedOption) {
         option.classList.remove('active');
         option.style.border = '3px solid #ddd';
         option.style.transform = 'scale(1)';
+        option.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
     });
     
     // Add active class and highlight selected option
@@ -196,6 +196,7 @@ function selectSize(selectedOption) {
         option.style.color = '#495057';
         option.style.border = '2px solid #dee2e6';
         option.style.transform = 'translateY(0)';
+        option.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.1)';
     });
     
     // Add active class and highlight selected option
@@ -255,12 +256,14 @@ function updateOrderSummary() {
     const summaryTotal = document.getElementById('summaryTotal');
     const summaryColor = document.getElementById('summaryColor');
     const summarySize = document.getElementById('summarySize');
+    const summaryDelivery = document.getElementById('summaryDelivery');
     
     if (summaryQuantity) summaryQuantity.textContent = formatArabicNumber(quantity);
     if (summaryWilaya) summaryWilaya.textContent = wilaya ? getWilayaArabicName(wilaya) : 'غير محدد';
     if (summaryTotal) summaryTotal.textContent = formatArabicNumber(totalPrice);
     if (summaryColor) summaryColor.textContent = selectedColor;
     if (summarySize) summarySize.textContent = selectedSize;
+    if (summaryDelivery) summaryDelivery.textContent = formatArabicNumber(deliveryPrice) + ' د.ج';
     const quantity = parseInt(document.getElementById('quantity').value) || 1;
     const wilaya = document.getElementById('wilaya').value;
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
