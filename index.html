@@ -194,21 +194,24 @@
                                 </div>
 
                                 <!-- Delivery Type Selection -->
-                                <div class="form-group" id="deliveryTypeGroup" style="display: none;">
-                                    <label style="display: block; font-weight: 600; color: #1e3c72; font-size: 16px; margin-bottom: 12px; text-align: center;">نوع التوصيل:</label>
-                                    <div style="display: flex; justify-content: center; gap: 10px; padding: 10px 0;">
-                                        <div class="delivery-option active" data-type="home" onclick="selectDeliveryType(this)" 
-                                             style="padding: 12px 20px; border: 2px solid #007bff; border-radius: 12px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);">
+                                <div class="form-group" id="deliveryTypeGroup" style="display: none; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 15px; border: 2px solid #e9ecef;">
+                                    <label style="display: block; font-weight: 600; color: #1e3c72; font-size: 18px; margin-bottom: 15px; text-align: center;">
+                                        <i class="fas fa-truck" style="margin-left: 8px;"></i>
+                                        نوع التوصيل:
+                                    </label>
+                                    <div style="display: flex; justify-content: center; gap: 15px; padding: 15px 0;">
+                                        <div class="delivery-option" data-type="home" onclick="selectDeliveryType(this)" 
+                                             style="padding: 15px 25px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;">
                                             <i class="fas fa-home"></i>
                                             إلى المنزل
                                         </div>
                                         <div class="delivery-option" data-type="office" onclick="selectDeliveryType(this)" 
-                                             style="padding: 12px 20px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);">
+                                             style="padding: 15px 25px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;">
                                             <i class="fas fa-building"></i>
                                             إلى المكتب
                                         </div>
                                     </div>
-                                    <div id="deliveryPrice" style="text-align: center; font-weight: 600; color: #1e3c72; margin-top: 10px; font-size: 16px;"></div>
+                                    <div id="deliveryPrice" style="text-align: center; font-weight: 700; color: #28a745; margin-top: 15px; font-size: 18px; padding: 10px; background: white; border-radius: 8px; border: 1px solid #d4edda;"></div>
                                 </div>
 
                                 <div class="form-group">

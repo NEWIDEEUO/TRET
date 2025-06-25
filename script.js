@@ -16,7 +16,7 @@ const PRODUCT_CONFIG = {
     defaultSize: '40'
 };
 
-// Delivery Configuration
+// Delivery Configuration - UPDATED WITH CORRECT PRICES
 const DELIVERY_CONFIG = {
     'ADRAR': { home: 1400, office: 970 },
     'CHLEF': { home: 800, office: 520 },
@@ -45,7 +45,7 @@ const DELIVERY_CONFIG = {
     'CONSTANTINE': { home: 700, office: 520 },
     'MEDEA': { home: 800, office: 520 },
     'MOSTAGANEM': { home: 800, office: 520 },
-    'MSILA': { home: 800, office: 620 },
+    'M\'SILA': { home: 800, office: 620 },
     'MASCARA': { home: 800, office: 520 },
     'OUARGLA': { home: 1000, office: 670 },
     'ORAN': { home: 800, office: 520 },
@@ -71,11 +71,11 @@ const DELIVERY_CONFIG = {
     'IN SALAH': { home: 1600, office: null },
     'IN GUEZZAM': { home: 1600, office: null },
     'TOUGGOURT': { home: 950, office: 670 },
-    'MGHAIR': { home: 950, office: null },
+    'M\'GHAIR': { home: 950, office: null },
     'EL MENIA': { home: 1000, office: null }
 };
 
-// Unavailable provinces
+// Unavailable provinces (marked as / /)
 const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ BADJI MOKHTAR', 'DJANET'];
 
 // Anti-spam configuration
@@ -250,7 +250,7 @@ function handleWilayaChange() {
         // Reset all delivery options
         document.querySelectorAll('.delivery-option').forEach(opt => {
             opt.classList.remove('active');
-            opt.setAttribute('style', 'padding: 12px 20px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);');
+            opt.setAttribute('style', 'padding: 15px 25px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;');
         });
         
         // Activate first available option
@@ -268,12 +268,12 @@ function selectDeliveryType(selectedOption) {
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
-        option.setAttribute('style', 'padding: 12px 20px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);');
+        option.setAttribute('style', 'padding: 15px 25px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;');
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.setAttribute('style', 'padding: 12px 20px; border: 2px solid #007bff; border-radius: 12px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);');
+    selectedOption.setAttribute('style', 'padding: 15px 25px; border: 2px solid #007bff; border-radius: 12px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); min-width: 140px; justify-content: center;');
     
     updateDeliveryPrice();
     updateOrderSummary();
@@ -292,9 +292,12 @@ function updateDeliveryPrice() {
     
     const deliveryPrice = deliveryConfig[selectedDeliveryType];
     if (deliveryPrice) {
-        deliveryPriceElement.textContent = `تكلفة التوصيل: ${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}`;
+        deliveryPriceElement.innerHTML = `<i class="fas fa-truck" style="margin-left: 8px; color: #28a745;"></i>تكلفة التوصيل: <strong>${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}</strong>`;
     } else {
-        deliveryPriceElement.textContent = 'التوصيل غير متاح لهذا النوع';
+        deliveryPriceElement.innerHTML = `<i class="fas fa-times-circle" style="margin-left: 8px; color: #dc3545;"></i>التوصيل غير متاح لهذا النوع`;
+        deliveryPriceElement.style.color = '#dc3545';
+        deliveryPriceElement.style.borderColor = '#f5c6cb';
+        deliveryPriceElement.style.backgroundColor = '#f8d7da';
     }
 }
 
@@ -306,14 +309,14 @@ function getWilayaArabicName(wilayaCode) {
         'BOUIRA': 'البويرة', 'TAMANRASSET': 'تمنراست', 'TEBESSA': 'تبسة', 'TLEMCEN': 'تلمسان', 'TIARET': 'تيارت',
         'TIZI OUZOU': 'تيزي وزو', 'ALGER': 'الجزائر', 'DJELFA': 'الجلفة', 'JIJEL': 'جيجل', 'SETIF': 'سطيف',
         'SAIDA': 'سعيدة', 'SKIKDA': 'سكيكدة', 'SIDI BEL ABBES': 'سيدي بلعباس', 'ANNABA': 'عنابة', 'GUELMA': 'قالمة',
-        'CONSTANTINE': 'قسنطينة', 'MEDEA': 'المدية', 'MOSTAGANEM': 'مستغانم', 'MSILA': 'المسيلة', 'MASCARA': 'معسكر',
+        'CONSTANTINE': 'قسنطينة', 'MEDEA': 'المدية', 'MOSTAGANEM': 'مستغانم', 'M\'SILA': 'المسيلة', 'MASCARA': 'معسكر',
         'OUARGLA': 'ورقلة', 'ORAN': 'وهران', 'EL BAYADH': 'البيض', 'BORDJ BOU ARRERIDJ': 'برج بو عريريج',
         'BOUMERDES': 'بومرداس', 'EL TARF': 'الطارف', 'TINDOUF': 'تندوف', 'TISSEMSILT': 'تيسمسيلت',
         'EL OUED': 'الوادي', 'KHENCHELA': 'خنشلة', 'SOUK AHRAS': 'سوق أهراس', 'TIPAZA': 'تيبازة',
         'MILA': 'ميلة', 'AIN DEFLA': 'عين الدفلى', 'NAAMA': 'النعامة', 'AIN TEMOUCHENT': 'عين تموشنت',
         'GHARDAIA': 'غرداية', 'RELIZANE': 'غليزان', 'TIMIMOUN': 'تيميمون', 'OULED DJELLAL': 'أولاد جلال',
         'BENI ABBES': 'بني عباس', 'IN SALAH': 'إن صالح', 'IN GUEZZAM': 'إن قزام', 'TOUGGOURT': 'توقرت',
-        'MGHAIR': 'المغير', 'EL MENIA': 'المنيعة'
+        'M\'GHAIR': 'المغير', 'EL MENIA': 'المنيعة'
     };
     return wilayaNames[wilayaCode] || wilayaCode;
 }
@@ -565,23 +568,27 @@ async function sendTelegramNotifications(orderData) {
 👤 <b>معلومات العميل:</b>
 الاسم: ${orderData.fullName}
 الهاتف: ${orderData.phone}
+
+📍 <b>معلومات التوصيل:</b>
 الولاية: ${getWilayaArabicName(orderData.wilaya)}
 البلدية: ${orderData.commune}
+نوع التوصيل: ${selectedDeliveryType === 'home' ? '🏠 إلى المنزل' : '🏢 إلى المكتب'}
 
 🎯 <b>تفاصيل المنتج:</b>
+المنتج: ${PRODUCT_CONFIG.productName}
 الكمية: ${orderData.quantity}
 اللون: ${selectedColor}
 المقاس: ${selectedSize}
-السعر الأساسي: ${PRODUCT_CONFIG.basePrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 
-🚚 <b>تفاصيل التوصيل:</b>
-نوع التوصيل: ${selectedDeliveryType === 'home' ? 'إلى المنزل' : 'إلى المكتب'}
+💰 <b>تفاصيل السعر:</b>
+سعر المنتج: ${productPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 تكلفة التوصيل: ${deliveryPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
-
-💰 <b>المبلغ الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
+<b>المبلغ الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
 
 ⏰ تاريخ الطلب: ${new Date().toLocaleString('ar-DZ')}
-🆔 معرف الطلب: #${Date.now().toString().slice(-6)}`;
+🆔 معرف الطلب: #${Date.now().toString().slice(-6)}
+
+✅ <b>حالة الطلب:</b> جديد - في انتظار التأكيد`;
     
     // Send to both channels
     const promises = [];
