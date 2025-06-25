@@ -104,7 +104,7 @@ function changeQuantity(change) {
  */
 function selectColor(selectedOption) {
     // Remove active class from all color options
-    const colorOptions = document.querySelectorAll('.color-option');
+    const colorOptions = document.querySelectorAll('.form-color-option');
     colorOptions.forEach(option => option.classList.remove('active'));
     
     // Add active class to selected option
@@ -120,7 +120,7 @@ function selectColor(selectedOption) {
  */
 function selectSize(selectedOption) {
     // Remove active class from all size options
-    const sizeOptions = document.querySelectorAll('.size-option');
+    const sizeOptions = document.querySelectorAll('.form-size-option');
     sizeOptions.forEach(option => option.classList.remove('active'));
     
     // Add active class to selected option
@@ -155,8 +155,8 @@ function updateOrderSummary() {
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
     
     // Get selected color and size
-    const selectedColor = document.querySelector('.color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
-    const selectedSize = document.querySelector('.size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    const selectedColor = document.querySelector('.form-color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.form-size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     
     // Update summary elements
     const summaryQuantity = document.getElementById('summaryQuantity');
@@ -366,8 +366,8 @@ async function sendTelegramNotifications(orderData) {
 💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
     
     // Get selected options
-    const selectedColor = document.querySelector('.color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
-    const selectedSize = document.querySelector('.size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    const selectedColor = document.querySelector('.form-color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.form-size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     
     // Detailed message (Channel 2) - Complete order information
     const detailsMessage = `🛒 <b>طلب جديد - ${PRODUCT_CONFIG.productName}</b>

@@ -834,29 +834,24 @@ body {
         font-size: 11px;
     }
     
-    /* Selection sections responsive */
-    .color-options {
-        gap: 10px;
-    }
-    
-    .color-option {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .color-name {
-        font-size: 10px;
-        bottom: -20px;
-    }
-    
-    .size-options {
+    /* Form selection sections responsive */
+    .form-color-options {
         gap: 8px;
     }
     
-    .size-option {
-        width: 45px;
-        height: 45px;
-        font-size: 14px;
+    .form-color-option {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .form-size-options {
+        gap: 6px;
+    }
+    
+    .form-size-option {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
     }
 }
 
@@ -971,110 +966,92 @@ body {
     }
 }
 
-/* Selection Sections */
-.selection-section {
-    margin: 25px 0;
-    padding: 20px;
+/* Form Selection Sections */
+.form-selection-section {
+    margin: 20px 0;
+    padding: 15px;
     background: white;
-    border-radius: 15px;
+    border-radius: 12px;
     border: 2px solid #e9ecef;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.selection-section h4 {
+.form-selection-section label {
+    display: block;
+    font-weight: 600;
     color: #1e3c72;
     font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     text-align: center;
 }
 
-/* Color Options */
-.color-options {
+/* Form Color Options */
+.form-color-options {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
-.color-option {
-    width: 60px;
-    height: 60px;
+.form-color-option {
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     cursor: pointer;
     border: 3px solid transparent;
     transition: all 0.3s ease;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
-.color-option:hover {
+.form-color-option:hover {
     border-color: #1e3c72;
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
-.color-option.active {
+.form-color-option.active {
     border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
     transform: scale(1.05);
 }
 
-.color-name {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    font-weight: 500;
-    color: #666;
-    white-space: nowrap;
-    background: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Size Options */
-.size-options {
+/* Form Size Options */
+.form-size-options {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
-.size-option {
-    width: 50px;
-    height: 50px;
+.form-size-option {
+    width: 42px;
+    height: 42px;
     border: 2px solid #dee2e6;
-    border-radius: 12px;
+    border-radius: 10px;
     background: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
     color: #495057;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.size-option:hover {
+.form-size-option:hover {
     border-color: #1e3c72;
     background: #f8f9fa;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
 }
 
-.size-option.active {
+.form-size-option.active {
     border-color: #007bff;
     background: #007bff;
     color: white;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
 }
 
 /* Error styling for form fields */

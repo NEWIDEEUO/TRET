@@ -80,6 +80,7 @@ This is a responsive Arabic landing page template for product sales with integra
 ## Changelog
 - June 25, 2025. Initial setup
 - June 25, 2025. Updated product from alarm clock to men's sandals with new content and pricing (2500/2800 DA)
+- June 25, 2025. Added color and size selection within order form (colors: Light Brown, Dark Brown, Black; sizes: 40-44)
 
 ## User Preferences
 
