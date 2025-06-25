@@ -103,12 +103,19 @@ function changeQuantity(change) {
  * @param {HTMLElement} selectedOption - The selected color option
  */
 function selectColor(selectedOption) {
-    // Remove active class from all color options
-    const colorOptions = document.querySelectorAll('.form-color-option');
-    colorOptions.forEach(option => option.classList.remove('active'));
+    // Remove active class and reset borders for all color options
+    const colorOptions = document.querySelectorAll('.color-circle');
+    colorOptions.forEach(option => {
+        option.classList.remove('active');
+        option.style.border = '3px solid #ddd';
+        option.style.transform = 'scale(1)';
+    });
     
-    // Add active class to selected option
+    // Add active class and highlight selected option
     selectedOption.classList.add('active');
+    selectedOption.style.border = '3px solid #007bff';
+    selectedOption.style.transform = 'scale(1.05)';
+    selectedOption.style.boxShadow = '0 0 0 4px rgba(0, 123, 255, 0.4)';
     
     // Update order summary
     updateOrderSummary();
@@ -119,12 +126,22 @@ function selectColor(selectedOption) {
  * @param {HTMLElement} selectedOption - The selected size option
  */
 function selectSize(selectedOption) {
-    // Remove active class from all size options
-    const sizeOptions = document.querySelectorAll('.form-size-option');
-    sizeOptions.forEach(option => option.classList.remove('active'));
+    // Remove active class and reset styles for all size options
+    const sizeOptions = document.querySelectorAll('.size-circle');
+    sizeOptions.forEach(option => {
+        option.classList.remove('active');
+        option.style.background = 'white';
+        option.style.color = '#495057';
+        option.style.border = '2px solid #dee2e6';
+        option.style.transform = 'translateY(0)';
+    });
     
-    // Add active class to selected option
+    // Add active class and highlight selected option
     selectedOption.classList.add('active');
+    selectedOption.style.background = '#007bff';
+    selectedOption.style.color = 'white';
+    selectedOption.style.border = '2px solid #007bff';
+    selectedOption.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.4)';
     
     // Update order summary
     updateOrderSummary();
@@ -155,8 +172,8 @@ function updateOrderSummary() {
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
     
     // Get selected color and size
-    const selectedColor = document.querySelector('.form-color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
-    const selectedSize = document.querySelector('.form-size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     
     // Update summary elements
     const summaryQuantity = document.getElementById('summaryQuantity');
@@ -366,8 +383,8 @@ async function sendTelegramNotifications(orderData) {
 💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
     
     // Get selected options
-    const selectedColor = document.querySelector('.form-color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
-    const selectedSize = document.querySelector('.form-size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     
     // Detailed message (Channel 2) - Complete order information
     const detailsMessage = `🛒 <b>طلب جديد - ${PRODUCT_CONFIG.productName}</b>
