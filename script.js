@@ -265,30 +265,18 @@ function handleWilayaChange() {
     updateOrderSummary();
 }
 
-// DELIVERY TYPE SELECTION - COMPLETELY FIXED
+// DELIVERY TYPE SELECTION - COMPACT AND ELEGANT
 function selectDeliveryType(selectedOption) {
     console.log('Delivery type selected:', selectedOption.dataset.type);
     
-    // Remove active class from all delivery options and reset styles
+    // Remove active class from all delivery options
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
-        const isHome = option.dataset.type === 'home';
-        const borderColor = isHome ? '#28a745' : '#007bff';
-        const textColor = isHome ? '#28a745' : '#007bff';
-        const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
-        
-        option.style.cssText = `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0); position: relative; overflow: hidden;`;
     });
     
-    // Add active class and highlight selected option
+    // Add active class to selected option
     selectedOption.classList.add('active');
-    const isHomeSelected = selectedOption.dataset.type === 'home';
-    const activeBg = isHomeSelected ? '#28a745' : '#007bff';
-    const activeColor = 'white';
-    const activeShadow = isHomeSelected ? 'rgba(40,167,69,0.6)' : 'rgba(0,123,255,0.6)';
-    
-    selectedOption.style.cssText = `padding: 20px 30px; border: 3px solid ${activeBg}; border-radius: 15px; background: ${activeBg}; color: ${activeColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 0 0 4px ${activeShadow}; min-width: 160px; justify-content: center; transform: translateY(-2px); position: relative; overflow: hidden;`;
     
     // Update delivery price and summary
     updateDeliveryPrice();
@@ -339,17 +327,11 @@ function clearDeliveryPrice() {
     }
 }
 
-// Reset delivery options to default state - FIXED VERSION
+// Reset delivery options to default state - COMPACT VERSION
 function resetDeliveryOptions() {
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
-        const isHome = option.dataset.type === 'home';
-        const borderColor = isHome ? '#28a745' : '#007bff';
-        const textColor = isHome ? '#28a745' : '#007bff';
-        const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
-        
-        option.style.cssText = `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0); position: relative; overflow: hidden;`;
     });
     clearDeliveryPrice();
 }

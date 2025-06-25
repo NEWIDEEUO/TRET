@@ -650,79 +650,81 @@ body {
     display: block;
     font-weight: 600;
     color: #1e3c72;
-    font-size: 16px;
-    margin-bottom: 15px;
+    font-size: 14px;
+    margin-bottom: 10px;
     text-align: center;
     font-family: 'Cairo', sans-serif;
 }
 
 .delivery-selection-label i {
-    margin-left: 8px;
+    margin-left: 6px;
     color: #28a745;
+    font-size: 13px;
 }
 
 .delivery-options-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 12px;
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    justify-content: center;
 }
 
 .delivery-option {
-    padding: 8px 12px;
-    border: 2px solid #dee2e6;
-    border-radius: 8px;
+    padding: 6px 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
     background: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    font-weight: 600;
-    font-size: 13px;
+    gap: 4px;
+    font-weight: 500;
+    font-size: 12px;
     color: #495057;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     font-family: 'Cairo', sans-serif;
     text-align: center;
-    min-height: 40px;
+    min-height: 32px;
+    max-width: 120px;
+    flex: 1;
 }
 
 .delivery-option:hover {
     border-color: #1e3c72;
     background: #f8f9fa;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .delivery-option.active {
     border-color: #007bff;
     background: #007bff;
     color: white;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
 
 .delivery-option[data-type="home"].active {
     border-color: #28a745;
     background: #28a745;
-    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
 }
 
 .delivery-option i {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .delivery-price-display {
     text-align: center;
     font-weight: 600;
     color: #495057;
-    margin-top: 8px;
-    padding: 8px 12px;
+    margin-top: 6px;
+    padding: 6px 10px;
     background: #f8f9fa;
-    border-radius: 6px;
+    border-radius: 5px;
     border: 1px solid #dee2e6;
-    font-size: 13px;
-    min-height: 35px;
+    font-size: 12px;
+    min-height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
