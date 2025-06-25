@@ -600,6 +600,12 @@ async function handleOrderSubmission(event) {
         // Show success message
         showModal('تم إرسال الطلب بنجاح', 'success');
         
+        // Track Facebook Pixel Purchase event only on successful order
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Purchase');
+            console.log('Facebook Pixel: Purchase event tracked');
+        }
+        
         // Reset form after short delay
         setTimeout(() => {
             form.reset();
