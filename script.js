@@ -16,7 +16,7 @@ const PRODUCT_CONFIG = {
     defaultSize: '40'
 };
 
-// Delivery Configuration - UPDATED WITH CORRECT PRICES
+// Delivery Configuration - EXACT PRICES FROM USER LIST
 const DELIVERY_CONFIG = {
     'ADRAR': { home: 1400, office: 970 },
     'CHLEF': { home: 800, office: 520 },
@@ -247,10 +247,15 @@ function handleWilayaChange() {
     );
     
     if (visibleOptions.length > 0) {
-        // Reset all delivery options
+        // Reset all delivery options to default styles
         document.querySelectorAll('.delivery-option').forEach(opt => {
             opt.classList.remove('active');
-            opt.setAttribute('style', 'padding: 15px 25px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;');
+            const isHome = opt.dataset.type === 'home';
+            const borderColor = isHome ? '#28a745' : '#007bff';
+            const textColor = isHome ? '#28a745' : '#007bff';
+            const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
+            
+            opt.setAttribute('style', `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0);`);
         });
         
         // Activate first available option
@@ -268,12 +273,21 @@ function selectDeliveryType(selectedOption) {
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
-        option.setAttribute('style', 'padding: 15px 25px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;');
+        const isHome = option.dataset.type === 'home';
+        const borderColor = isHome ? '#28a745' : '#007bff';
+        const textColor = isHome ? '#28a745' : '#007bff';
+        const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
+        
+        option.setAttribute('style', `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0);`);
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.setAttribute('style', 'padding: 15px 25px; border: 2px solid #007bff; border-radius: 12px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); min-width: 140px; justify-content: center;');
+    const isHomeSelected = selectedOption.dataset.type === 'home';
+    const activeBg = isHomeSelected ? 'linear-gradient(135deg, #28a745 0%, #20c997 100%)' : 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
+    const activeShadow = isHomeSelected ? 'rgba(40,167,69,0.4)' : 'rgba(0,123,255,0.4)';
+    
+    selectedOption.setAttribute('style', `padding: 20px 30px; border: 3px solid transparent; border-radius: 15px; background: ${activeBg}; color: white; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 8px 25px ${activeShadow}, 0 0 0 4px rgba(255,255,255,0.8); min-width: 160px; justify-content: center; transform: translateY(-2px);`);
     
     updateDeliveryPrice();
     updateOrderSummary();
@@ -292,12 +306,23 @@ function updateDeliveryPrice() {
     
     const deliveryPrice = deliveryConfig[selectedDeliveryType];
     if (deliveryPrice) {
-        deliveryPriceElement.innerHTML = `<i class="fas fa-truck" style="margin-left: 8px; color: #28a745;"></i>تكلفة التوصيل: <strong>${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}</strong>`;
+        const deliveryTypeText = selectedDeliveryType === 'home' ? 'المنزل' : 'المكتب';
+        const iconClass = selectedDeliveryType === 'home' ? 'fa-home' : 'fa-building';
+        deliveryPriceElement.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <i class="fas ${iconClass}" style="color: #155724; font-size: 22px;"></i>
+            <span>تكلفة التوصيل إلى ${deliveryTypeText}: <strong style="color: #155724; font-size: 22px;">${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}</strong></span>
+        </div>`;
+        deliveryPriceElement.style.background = 'linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%)';
+        deliveryPriceElement.style.color = '#155724';
+        deliveryPriceElement.style.borderColor = '#c3e6cb';
     } else {
-        deliveryPriceElement.innerHTML = `<i class="fas fa-times-circle" style="margin-left: 8px; color: #dc3545;"></i>التوصيل غير متاح لهذا النوع`;
-        deliveryPriceElement.style.color = '#dc3545';
+        deliveryPriceElement.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <i class="fas fa-times-circle" style="color: #721c24; font-size: 22px;"></i>
+            <span style="color: #721c24; font-weight: 700;">التوصيل غير متاح لهذا النوع</span>
+        </div>`;
+        deliveryPriceElement.style.background = 'linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%)';
+        deliveryPriceElement.style.color = '#721c24';
         deliveryPriceElement.style.borderColor = '#f5c6cb';
-        deliveryPriceElement.style.backgroundColor = '#f8d7da';
     }
 }
 
