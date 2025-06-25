@@ -149,21 +149,18 @@ function changeQuantity(change) {
 function selectColor(selectedOption) {
     console.log('Color selected:', selectedOption.dataset.color);
     
-    // Remove active class from all color options
+    // Remove active class from all color options and reset styles completely
     const colorOptions = document.querySelectorAll('.color-circle');
     colorOptions.forEach(option => {
         option.classList.remove('active');
-        // Reset to default border
-        option.style.border = '3px solid #ddd !important';
-        option.style.transform = 'scale(1)';
-        option.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+        option.setAttribute('style', 'width: 50px; height: 50px; border-radius: 50%; background-color: ' + 
+            getComputedStyle(option).backgroundColor + '; border: 3px solid #ddd; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); transform: scale(1);');
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.style.border = '3px solid #007bff !important';
-    selectedOption.style.transform = 'scale(1.05)';
-    selectedOption.style.boxShadow = '0 0 0 4px rgba(0, 123, 255, 0.4)';
+    selectedOption.setAttribute('style', 'width: 50px; height: 50px; border-radius: 50%; background-color: ' + 
+        getComputedStyle(selectedOption).backgroundColor + '; border: 3px solid #007bff; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.4); transform: scale(1.05);');
     
     updateOrderSummary();
 }
@@ -172,23 +169,16 @@ function selectColor(selectedOption) {
 function selectSize(selectedOption) {
     console.log('Size selected:', selectedOption.dataset.size);
     
-    // Remove active class from all size options
+    // Remove active class from all size options and reset styles completely
     const sizeOptions = document.querySelectorAll('.size-circle');
     sizeOptions.forEach(option => {
         option.classList.remove('active');
-        // Reset to default styles
-        option.style.background = 'white !important';
-        option.style.color = '#495057 !important';
-        option.style.border = '2px solid #dee2e6 !important';
-        option.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.1)';
+        option.setAttribute('style', 'width: 45px; height: 45px; border-radius: 12px; background: white; color: #495057; border: 2px solid #dee2e6; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);');
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.style.background = '#007bff !important';
-    selectedOption.style.color = 'white !important';
-    selectedOption.style.border = '2px solid #007bff !important';
-    selectedOption.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.4)';
+    selectedOption.setAttribute('style', 'width: 45px; height: 45px; border-radius: 12px; background: #007bff; color: white; border: 2px solid #007bff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);');
     
     updateOrderSummary();
 }
@@ -257,12 +247,10 @@ function handleWilayaChange() {
     );
     
     if (visibleOptions.length > 0) {
-        // Reset all options
+        // Reset all delivery options
         document.querySelectorAll('.delivery-option').forEach(opt => {
             opt.classList.remove('active');
-            opt.style.background = 'white !important';
-            opt.style.color = '#495057 !important';
-            opt.style.border = '2px solid #dee2e6 !important';
+            opt.setAttribute('style', 'padding: 12px 20px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);');
         });
         
         // Activate first available option
@@ -276,22 +264,16 @@ function handleWilayaChange() {
 function selectDeliveryType(selectedOption) {
     console.log('Delivery type selected:', selectedOption.dataset.type);
     
-    // Remove active class from all delivery options
+    // Remove active class from all delivery options and reset styles
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
-        option.style.background = 'white !important';
-        option.style.color = '#495057 !important';
-        option.style.border = '2px solid #dee2e6 !important';
-        option.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.1)';
+        option.setAttribute('style', 'padding: 12px 20px; border: 2px solid #dee2e6; border-radius: 12px; background: white; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);');
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.style.background = '#007bff !important';
-    selectedOption.style.color = 'white !important';
-    selectedOption.style.border = '2px solid #007bff !important';
-    selectedOption.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.4)';
+    selectedOption.setAttribute('style', 'padding: 12px 20px; border: 2px solid #007bff; border-radius: 12px; background: #007bff; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);');
     
     updateDeliveryPrice();
     updateOrderSummary();
@@ -395,6 +377,8 @@ function updateOrderSummary() {
     if (summaryDelivery) {
         summaryDelivery.textContent = formatArabicNumber(deliveryPrice) + ' د.ج';
         console.log('Updated delivery:', summaryDelivery.textContent);
+    } else {
+        console.log('summaryDelivery element not found');
     }
 }
 
