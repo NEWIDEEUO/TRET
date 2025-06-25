@@ -1098,7 +1098,7 @@ body {
 .floating-btn {
     position: fixed;
     bottom: 80px;
-    left: 65%;
+    left: 57%;
     transform: translateX(-50%);
     background: linear-gradient(135deg, #ff4757, #ff3838);
     color: white;
