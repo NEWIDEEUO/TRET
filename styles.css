@@ -1111,13 +1111,15 @@ body {
     cursor: pointer;
     z-index: 1000;
     box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 10px;
     animation: pulse 2s infinite;
     min-width: 170px;
     justify-content: center;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .floating-btn:hover {

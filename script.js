@@ -983,19 +983,40 @@ function scrollToOrderForm() {
 
 // Handle floating button visibility
 function handleFloatingButtonVisibility() {
-    const floatingBtn = document.querySelector(".floating-order-btn");
-    const orderForm = document.getElementById("orderForm");
+    const floatingBtn = document.querySelector(".floating-btn");
+    const orderForm = document.querySelector(".order-form");
+    const productSpecs = document.querySelector(".product-info-details");
 
-    if (!floatingBtn || !orderForm) return;
+    if (!floatingBtn) return;
 
-    const orderFormRect = orderForm.getBoundingClientRect();
-    const isOrderFormVisible =
-        orderFormRect.top <= window.innerHeight && orderFormRect.bottom >= 0;
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    let shouldHide = false;
 
-    if (isOrderFormVisible) {
-        floatingBtn.style.display = "none";
+    // Check if order form is visible
+    if (orderForm) {
+        const orderFormRect = orderForm.getBoundingClientRect();
+        const isOrderFormVisible = orderFormRect.top <= windowHeight && orderFormRect.bottom >= 0;
+        if (isOrderFormVisible) shouldHide = true;
+    }
+
+    // Check if product specifications section is visible
+    if (productSpecs) {
+        const specsRect = productSpecs.getBoundingClientRect();
+        const isSpecsVisible = specsRect.top <= windowHeight && specsRect.bottom >= 0;
+        if (isSpecsVisible) shouldHide = true;
+    }
+
+    // Apply visibility with smooth transition
+    if (shouldHide) {
+        floatingBtn.style.opacity = "0";
+        floatingBtn.style.pointerEvents = "none";
+        floatingBtn.style.transform = "translateX(-50%) translateY(20px)";
     } else {
-        floatingBtn.style.display = "flex";
+        floatingBtn.style.opacity = "1";
+        floatingBtn.style.pointerEvents = "auto";
+        floatingBtn.style.transform = "translateX(-50%) translateY(0)";
     }
 }
 
