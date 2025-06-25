@@ -16,6 +16,68 @@ const PRODUCT_CONFIG = {
     defaultSize: '40'
 };
 
+// Delivery Configuration
+const DELIVERY_CONFIG = {
+    'ADRAR': { home: 1400, office: 970 },
+    'CHLEF': { home: 800, office: 520 },
+    'LAGHOUAT': { home: 950, office: 670 },
+    'OUM EL BOUAGHI': { home: 950, office: 670 },
+    'BATNA': { home: 700, office: 520 },
+    'BEJAIA': { home: 750, office: 520 },
+    'BISKRA': { home: 950, office: 520 },
+    'BECHAR': { home: 1100, office: 720 },
+    'BLIDA': { home: 750, office: 520 },
+    'BOUIRA': { home: 750, office: 520 },
+    'TAMANRASSET': { home: 1600, office: 1120 },
+    'TEBESSA': { home: 750, office: 520 },
+    'TLEMCEN': { home: 750, office: 520 },
+    'TIARET': { home: 800, office: 520 },
+    'TIZI OUZOU': { home: 750, office: 520 },
+    'ALGER': { home: 600, office: 470 },
+    'DJELFA': { home: 950, office: 670 },
+    'JIJEL': { home: 750, office: 520 },
+    'SETIF': { home: 750, office: 520 },
+    'SAIDA': { home: 800, office: 570 },
+    'SKIKDA': { home: 800, office: 520 },
+    'SIDI BEL ABBES': { home: 800, office: 520 },
+    'ANNABA': { home: 700, office: 520 },
+    'GUELMA': { home: 700, office: 520 },
+    'CONSTANTINE': { home: 700, office: 520 },
+    'MEDEA': { home: 800, office: 520 },
+    'MOSTAGANEM': { home: 800, office: 520 },
+    'MSILA': { home: 800, office: 620 },
+    'MASCARA': { home: 800, office: 520 },
+    'OUARGLA': { home: 1000, office: 670 },
+    'ORAN': { home: 800, office: 520 },
+    'EL BAYADH': { home: 1100, office: 670 },
+    'BORDJ BOU ARRERIDJ': { home: 750, office: 520 },
+    'BOUMERDES': { home: 750, office: 520 },
+    'EL TARF': { home: 800, office: 520 },
+    'TINDOUF': { home: 1600, office: null },
+    'TISSEMSILT': { home: 800, office: 520 },
+    'EL OUED': { home: 1000, office: 670 },
+    'KHENCHELA': { home: 700, office: 520 },
+    'SOUK AHRAS': { home: 800, office: 370 },
+    'TIPAZA': { home: 750, office: 520 },
+    'MILA': { home: 800, office: 520 },
+    'AIN DEFLA': { home: 750, office: 520 },
+    'NAAMA': { home: 1100, office: 670 },
+    'AIN TEMOUCHENT': { home: 800, office: 520 },
+    'GHARDAIA': { home: 950, office: 670 },
+    'RELIZANE': { home: 800, office: 520 },
+    'TIMIMOUN': { home: 1400, office: 970 },
+    'OULED DJELLAL': { home: 950, office: 620 },
+    'BENI ABBES': { home: 1000, office: 970 },
+    'IN SALAH': { home: 1600, office: null },
+    'IN GUEZZAM': { home: 1600, office: null },
+    'TOUGGOURT': { home: 950, office: 670 },
+    'MGHAIR': { home: 950, office: null },
+    'EL MENIA': { home: 1000, office: null }
+};
+
+// Unavailable provinces (marked as / /)
+const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ BADJI MOKHTAR', 'DJANET'];
+
 // Anti-spam configuration
 const SPAM_PROTECTION = {
     cooldownTime: 60000, // 1 minute cooldown between orders
@@ -167,6 +229,38 @@ function updatePriceDisplay() {
  * Update order summary
  */
 function updateOrderSummary() {
+    const quantity = parseInt(document.getElementById('quantity').value) || 1;
+    const wilaya = document.getElementById('wilaya').value;
+    const selectedDeliveryType = document.querySelector('.delivery-option.active')?.dataset.type;
+    
+    // Calculate product price
+    const productPrice = PRODUCT_CONFIG.basePrice * quantity;
+    
+    // Calculate delivery price
+    let deliveryPrice = 0;
+    if (wilaya && selectedDeliveryType && DELIVERY_CONFIG[wilaya]) {
+        deliveryPrice = DELIVERY_CONFIG[wilaya][selectedDeliveryType] || 0;
+    }
+    
+    // Calculate total price
+    const totalPrice = productPrice + deliveryPrice;
+    
+    // Get selected color and size
+    const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    
+    // Update summary elements
+    const summaryQuantity = document.getElementById('summaryQuantity');
+    const summaryWilaya = document.getElementById('summaryWilaya');
+    const summaryTotal = document.getElementById('summaryTotal');
+    const summaryColor = document.getElementById('summaryColor');
+    const summarySize = document.getElementById('summarySize');
+    
+    if (summaryQuantity) summaryQuantity.textContent = formatArabicNumber(quantity);
+    if (summaryWilaya) summaryWilaya.textContent = wilaya ? getWilayaArabicName(wilaya) : 'غير محدد';
+    if (summaryTotal) summaryTotal.textContent = formatArabicNumber(totalPrice);
+    if (summaryColor) summaryColor.textContent = selectedColor;
+    if (summarySize) summarySize.textContent = selectedSize;
     const quantity = parseInt(document.getElementById('quantity').value) || 1;
     const wilaya = document.getElementById('wilaya').value;
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
@@ -385,6 +479,13 @@ async function sendTelegramNotifications(orderData) {
     // Get selected options
     const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
     const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    const selectedDeliveryType = document.querySelector('.delivery-option.active')?.dataset.type || 'home';
+    
+    // Calculate delivery price
+    let deliveryPrice = 0;
+    if (orderData.wilaya && DELIVERY_CONFIG[orderData.wilaya]) {
+        deliveryPrice = DELIVERY_CONFIG[orderData.wilaya][selectedDeliveryType] || 0;
+    }
     
     // Detailed message (Channel 2) - Complete order information
     const detailsMessage = `🛒 <b>طلب جديد - ${PRODUCT_CONFIG.productName}</b>
