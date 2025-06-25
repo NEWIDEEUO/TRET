@@ -11,7 +11,9 @@ const PRODUCT_CONFIG = {
     originalPrice: 2800,
     discountPercentage: 11,
     productName: 'صندال رجالي عصري 2 في واحد',
-    currency: 'د.ج'
+    currency: 'د.ج',
+    defaultColor: 'Light Brown',
+    defaultSize: '40'
 };
 
 // Anti-spam configuration
@@ -34,8 +36,6 @@ function initializeEventListeners() {
     // Order form submission
     const orderForm = document.getElementById('orderForm');
     orderForm.addEventListener('submit', handleOrderSubmission);
-
-    // Remove color selection (no longer needed)
 
     // Wilaya selection for summary update
     const wilayaSelect = document.getElementById('wilaya');
@@ -98,7 +98,37 @@ function changeQuantity(change) {
     updateOrderSummary();
 }
 
-// Color selection function removed - not needed for this product
+/**
+ * Handle color selection
+ * @param {HTMLElement} selectedOption - The selected color option
+ */
+function selectColor(selectedOption) {
+    // Remove active class from all color options
+    const colorOptions = document.querySelectorAll('.color-option');
+    colorOptions.forEach(option => option.classList.remove('active'));
+    
+    // Add active class to selected option
+    selectedOption.classList.add('active');
+    
+    // Update order summary
+    updateOrderSummary();
+}
+
+/**
+ * Handle size selection
+ * @param {HTMLElement} selectedOption - The selected size option
+ */
+function selectSize(selectedOption) {
+    // Remove active class from all size options
+    const sizeOptions = document.querySelectorAll('.size-option');
+    sizeOptions.forEach(option => option.classList.remove('active'));
+    
+    // Add active class to selected option
+    selectedOption.classList.add('active');
+    
+    // Update order summary
+    updateOrderSummary();
+}
 
 /**
  * Update price display
@@ -123,6 +153,10 @@ function updateOrderSummary() {
     const quantity = parseInt(document.getElementById('quantity').value) || 1;
     const wilaya = document.getElementById('wilaya').value;
     const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
+    
+    // Get selected color and size
+    const selectedColor = document.querySelector('.color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     
     // Update summary elements
     const summaryQuantity = document.getElementById('summaryQuantity');
@@ -331,6 +365,10 @@ async function sendTelegramNotifications(orderData) {
 👤 العميل: ${orderData.fullName}
 💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
     
+    // Get selected options
+    const selectedColor = document.querySelector('.color-option.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
+    const selectedSize = document.querySelector('.size-option.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
+    
     // Detailed message (Channel 2) - Complete order information
     const detailsMessage = `🛒 <b>طلب جديد - ${PRODUCT_CONFIG.productName}</b>
 
@@ -344,6 +382,8 @@ async function sendTelegramNotifications(orderData) {
 
 🛍️ <b>تفاصيل الطلب:</b>
 المنتج: ${PRODUCT_CONFIG.productName}
+اللون: ${selectedColor}
+المقاس: ${selectedSize}
 الكمية: ${quantity}
 السعر: ${PRODUCT_CONFIG.basePrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 السعر الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
@@ -547,6 +587,8 @@ document.addEventListener('DOMContentLoaded', handleFloatingButtonVisibility);
 window.ProductLandingPage = {
     changeMainImage,
     changeQuantity,
+    selectColor,
+    selectSize,
     updateOrderSummary,
     showModal,
     closeModal,
