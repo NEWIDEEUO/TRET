@@ -78,9 +78,9 @@ const DELIVERY_CONFIG = {
 // Completely unavailable provinces (marked as / /)
 const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ_BADJI_MOKHTAR', 'DJANET'];
 
-// Anti-spam configuration - Updated to 10 seconds
+// Anti-spam configuration - Updated to 30 seconds
 const SPAM_PROTECTION = {
-    cooldownTime: 10000, // 10 seconds instead of 60
+    cooldownTime: 30000, // 30 seconds as requested
     lastOrderTime: 'lastOrderTimestamp'
 };
 
@@ -611,7 +611,7 @@ async function handleOrderSubmission(event) {
         localStorage.setItem(SPAM_PROTECTION.lastOrderTime, Date.now().toString());
         
         // Show success message
-        showModal('تم إرسال طلبك بنجاح! سنتواصل معك قريباً', 'success');
+        showModal('تم إرسال الطلب بنجاح', 'success');
         
         // Reset form after short delay
         setTimeout(() => {
@@ -635,7 +635,7 @@ async function handleOrderSubmission(event) {
     }
 }
 
-// Enhanced complete order validation
+// Complete validation for all fields including color and size
 function validateOrder(orderData) {
     const errors = [];
     
@@ -671,6 +671,18 @@ function validateOrder(orderData) {
     const selectedDeliveryType = document.querySelector('.delivery-option.active');
     if (orderData.wilaya && !selectedDeliveryType) {
         errors.push('• يرجى اختيار نوع التوصيل');
+    }
+    
+    // Validate color selection
+    const selectedColor = document.querySelector('.color-circle.active');
+    if (!selectedColor) {
+        errors.push('• يرجى اختيار اللون');
+    }
+    
+    // Validate size selection
+    const selectedSize = document.querySelector('.size-circle.active');
+    if (!selectedSize) {
+        errors.push('• يرجى اختيار القياس');
     }
     
     if (errors.length > 0) {
@@ -783,7 +795,7 @@ async function sendTelegramMessage(chatId, message) {
     return response.json();
 }
 
-// Enhanced modal with better animations and icons
+// Improved modal - no auto-close, user must manually close
 function showModal(message, type = 'success') {
     const modal = document.getElementById('messageModal');
     const modalMessage = document.getElementById('modalMessage');
@@ -804,21 +816,17 @@ function showModal(message, type = 'success') {
         modal.classList.add('show');
     }, 10);
     
-    // Auto-close success messages after 3 seconds
-    if (type === 'success') {
-        setTimeout(() => {
-            closeModal();
-        }, 3000);
-    }
+    // No auto-close - user must manually close the modal
 }
 
-// Close modal
+// Close modal with smooth animation
 function closeModal() {
     const modal = document.getElementById('messageModal');
     if (modal) {
         modal.classList.remove('show');
         setTimeout(() => {
             modal.style.display = 'none';
+            modal.className = 'modal'; // Reset modal class
         }, 300);
     }
 }
@@ -828,36 +836,14 @@ function formatArabicNumber(number) {
     return number.toLocaleString('ar-DZ');
 }
 
-// Enhanced spam protection with countdown
+// Anti-spam protection - 30 seconds with proper modal
 function checkSpamProtection() {
     const lastOrderTime = localStorage.getItem(SPAM_PROTECTION.lastOrderTime);
     if (lastOrderTime) {
         const timeDiff = Date.now() - parseInt(lastOrderTime);
         if (timeDiff < SPAM_PROTECTION.cooldownTime) {
             const remainingTime = Math.ceil((SPAM_PROTECTION.cooldownTime - timeDiff) / 1000);
-            showModal(`يرجى الانتظار ${remainingTime} ثانية قبل إرسال طلب آخر`, 'error');
-            
-            // Disable submit button temporarily
-            const submitBtn = document.querySelector('.submit-btn');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = `انتظر ${remainingTime} ثانية`;
-                
-                // Update countdown every second
-                const countdown = setInterval(() => {
-                    const newTimeDiff = Date.now() - parseInt(lastOrderTime);
-                    const newRemainingTime = Math.ceil((SPAM_PROTECTION.cooldownTime - newTimeDiff) / 1000);
-                    
-                    if (newRemainingTime <= 0) {
-                        clearInterval(countdown);
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> تأكيد الطلب الآن';
-                    } else {
-                        submitBtn.textContent = `انتظر ${newRemainingTime} ثانية`;
-                    }
-                }, 1000);
-            }
-            
+            showModal('لا يمكن إتمام الطلب الآن، يُرجى الانتظار 30 ثانية أخرى لمنع التكرار', 'error');
             return false;
         }
     }

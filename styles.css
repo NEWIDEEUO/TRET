@@ -583,13 +583,13 @@ body {
 
 .modal-content {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    margin: 20% auto;
-    padding: 25px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
+    margin: 25% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 350px;
     position: relative;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     text-align: center;
     border: 2px solid #e9ecef;
     transform: scale(0.7);
@@ -616,8 +616,8 @@ body {
 }
 
 .modal-icon {
-    font-size: 48px;
-    margin-bottom: 15px;
+    font-size: 40px;
+    margin-bottom: 12px;
     display: block;
 }
 
@@ -630,11 +630,11 @@ body {
 }
 
 .modal-message {
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.4;
     color: #495057;
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .modal.success .modal-message {
@@ -664,28 +664,28 @@ body {
 .delivery-options-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 15px;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
 .delivery-option {
-    padding: 12px 16px;
+    padding: 8px 12px;
     border: 2px solid #dee2e6;
-    border-radius: 10px;
+    border-radius: 8px;
     background: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     color: #495057;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     font-family: 'Cairo', sans-serif;
     text-align: center;
-    min-height: 50px;
+    min-height: 40px;
 }
 
 .delivery-option:hover {
@@ -709,20 +709,20 @@ body {
 }
 
 .delivery-option i {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .delivery-price-display {
     text-align: center;
     font-weight: 600;
     color: #495057;
-    margin-top: 10px;
-    padding: 10px 15px;
+    margin-top: 8px;
+    padding: 8px 12px;
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid #dee2e6;
-    font-size: 14px;
-    min-height: 45px;
+    font-size: 13px;
+    min-height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
