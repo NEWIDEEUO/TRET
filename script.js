@@ -16,11 +16,67 @@ const PRODUCT_CONFIG = {
     defaultSize: '40'
 };
 
-// NEW DELIVERY SYSTEM - TO BE POPULATED
-const DELIVERY_CONFIG = {};
+// DELIVERY CONFIGURATION WITH EXACT USER DATA
+const DELIVERY_CONFIG = {
+    'ADRAR': { home: 1400, office: 970 },
+    'CHLEF': { home: 800, office: 520 },
+    'LAGHOUAT': { home: 950, office: 670 },
+    'OUM_EL_BOUAGHI': { home: 950, office: 670 },
+    'BATNA': { home: 700, office: 520 },
+    'BEJAIA': { home: 750, office: 520 },
+    'BISKRA': { home: 950, office: 520 },
+    'BECHAR': { home: 1100, office: 720 },
+    'BLIDA': { home: 750, office: 520 },
+    'BOUIRA': { home: 750, office: 520 },
+    'TAMANRASSET': { home: 1600, office: 1120 },
+    'TEBESSA': { home: 750, office: 520 },
+    'TLEMCEN': { home: 750, office: 520 },
+    'TIARET': { home: 800, office: 520 },
+    'TIZI_OUZOU': { home: 750, office: 520 },
+    'ALGER': { home: 600, office: 470 },
+    'DJELFA': { home: 950, office: 670 },
+    'JIJEL': { home: 750, office: 520 },
+    'SETIF': { home: 750, office: 520 },
+    'SAIDA': { home: 800, office: 570 },
+    'SKIKDA': { home: 800, office: 520 },
+    'SIDI_BEL_ABBES': { home: 800, office: 520 },
+    'ANNABA': { home: 700, office: 520 },
+    'GUELMA': { home: 700, office: 520 },
+    'CONSTANTINE': { home: 700, office: 520 },
+    'MEDEA': { home: 800, office: 520 },
+    'MOSTAGANEM': { home: 800, office: 520 },
+    'MSILA': { home: 800, office: 620 },
+    'MASCARA': { home: 800, office: 520 },
+    'OUARGLA': { home: 1000, office: 670 },
+    'ORAN': { home: 800, office: 520 },
+    'EL_BAYADH': { home: 1100, office: 670 },
+    'BORDJ_BOU_ARRERIDJ': { home: 750, office: 520 },
+    'BOUMERDES': { home: 750, office: 520 },
+    'EL_TARF': { home: 800, office: 520 },
+    'TINDOUF': { home: 1600, office: null },
+    'TISSEMSILT': { home: 800, office: 520 },
+    'EL_OUED': { home: 1000, office: 670 },
+    'KHENCHELA': { home: 700, office: 520 },
+    'SOUK_AHRAS': { home: 800, office: 370 },
+    'TIPAZA': { home: 750, office: 520 },
+    'MILA': { home: 800, office: 520 },
+    'AIN_DEFLA': { home: 750, office: 520 },
+    'NAAMA': { home: 1100, office: 670 },
+    'AIN_TEMOUCHENT': { home: 800, office: 520 },
+    'GHARDAIA': { home: 950, office: 670 },
+    'RELIZANE': { home: 800, office: 520 },
+    'TIMIMOUN': { home: 1400, office: 970 },
+    'OULED_DJELLAL': { home: 950, office: 620 },
+    'BENI_ABBES': { home: 1000, office: 970 },
+    'IN_SALAH': { home: 1600, office: null },
+    'IN_GUEZZAM': { home: 1600, office: null },
+    'TOUGGOURT': { home: 950, office: 670 },
+    'MGHAIR': { home: 950, office: null },
+    'EL_MENIA': { home: 1000, office: null }
+};
 
-// Unavailable provinces
-const UNAVAILABLE_PROVINCES = [];
+// Completely unavailable provinces (marked as / /)
+const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ_BADJI_MOKHTAR', 'DJANET'];
 
 // Anti-spam configuration
 const SPAM_PROTECTION = {
@@ -290,10 +346,66 @@ function resetDeliveryOptions() {
     clearDeliveryPrice();
 }
 
-// Get Arabic name for wilaya code - TO BE UPDATED
+// Get Arabic name for wilaya code
 function getWilayaArabicName(wilayaCode) {
-    // This will be populated with the new wilaya data
-    return wilayaCode;
+    const wilayaNames = {
+        'ADRAR': 'أدرار',
+        'CHLEF': 'الشلف',
+        'LAGHOUAT': 'الأغواط',
+        'OUM_EL_BOUAGHI': 'أم البواقي',
+        'BATNA': 'باتنة',
+        'BEJAIA': 'بجاية',
+        'BISKRA': 'بسكرة',
+        'BECHAR': 'بشار',
+        'BLIDA': 'البليدة',
+        'BOUIRA': 'البويرة',
+        'TAMANRASSET': 'تمنراست',
+        'TEBESSA': 'تبسة',
+        'TLEMCEN': 'تلمسان',
+        'TIARET': 'تيارت',
+        'TIZI_OUZOU': 'تيزي وزو',
+        'ALGER': 'الجزائر',
+        'DJELFA': 'الجلفة',
+        'JIJEL': 'جيجل',
+        'SETIF': 'سطيف',
+        'SAIDA': 'سعيدة',
+        'SKIKDA': 'سكيكدة',
+        'SIDI_BEL_ABBES': 'سيدي بلعباس',
+        'ANNABA': 'عنابة',
+        'GUELMA': 'قالمة',
+        'CONSTANTINE': 'قسنطينة',
+        'MEDEA': 'المدية',
+        'MOSTAGANEM': 'مستغانم',
+        'MSILA': 'المسيلة',
+        'MASCARA': 'معسكر',
+        'OUARGLA': 'ورقلة',
+        'ORAN': 'وهران',
+        'EL_BAYADH': 'البيض',
+        'BORDJ_BOU_ARRERIDJ': 'برج بو عريريج',
+        'BOUMERDES': 'بومرداس',
+        'EL_TARF': 'الطارف',
+        'TINDOUF': 'تندوف',
+        'TISSEMSILT': 'تيسمسيلت',
+        'EL_OUED': 'الوادي',
+        'KHENCHELA': 'خنشلة',
+        'SOUK_AHRAS': 'سوق أهراس',
+        'TIPAZA': 'تيبازة',
+        'MILA': 'ميلة',
+        'AIN_DEFLA': 'عين الدفلى',
+        'NAAMA': 'النعامة',
+        'AIN_TEMOUCHENT': 'عين تموشنت',
+        'GHARDAIA': 'غرداية',
+        'RELIZANE': 'غليزان',
+        'TIMIMOUN': 'تيميمون',
+        'OULED_DJELLAL': 'أولاد جلال',
+        'BENI_ABBES': 'بني عباس',
+        'IN_SALAH': 'إن صالح',
+        'IN_GUEZZAM': 'إن قزام',
+        'TOUGGOURT': 'توقرت',
+        'MGHAIR': 'المغير',
+        'EL_MENIA': 'المنيعة'
+    };
+    return wilayaNames[wilayaCode] || wilayaCode;
 }
 
 // Update order summary - FIXED VERSION
