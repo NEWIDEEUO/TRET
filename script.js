@@ -606,7 +606,7 @@ async function handleOrderSubmission(event) {
         
     } catch (error) {
         console.error('Order submission failed:', error);
-        showModal('حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.', 'error');
+        showModal('حدث خطأ، يرجى المحاولة مرة أخرى', 'error');
     } finally {
         // Reset button state
         setTimeout(() => {
@@ -668,7 +668,7 @@ function validateOrder(orderData) {
     }
     
     if (errors.length > 0) {
-        showModal('يرجى تصحيح الأخطاء التالية:\n\n' + errors.join('\n'), 'error');
+        showModal('لا يمكن إتمام الطلب، تأكد من إدخال جميع البيانات بشكل صحيح', 'error');
         return false;
     }
     
@@ -825,7 +825,7 @@ function checkSpamProtection() {
         const timeDiff = Date.now() - parseInt(lastOrderTime);
         if (timeDiff < SPAM_PROTECTION.cooldownTime) {
             const remainingTime = Math.ceil((SPAM_PROTECTION.cooldownTime - timeDiff) / 1000);
-            showModal('لا يمكن إتمام الطلب الآن، يُرجى الانتظار 30 ثانية أخرى لمنع التكرار', 'error');
+            showModal('يجب الانتظار 30 ثانية قبل إرسال طلب جديد', 'error');
             return false;
         }
     }
