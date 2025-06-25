@@ -91,6 +91,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - June 25, 2025. MODAL POSITIONING & DELIVERY UX: Fixed modal positioning to true center of screen on all devices. Enhanced delivery selection with visual feedback - gradient backgrounds, shadow effects, and pulse animation on selection. Improved user experience with clear visual confirmation of choices.
 - June 25, 2025. MODAL CENTERING FIX: Corrected conflicting CSS rules in mobile responsive section that were overriding the perfect center positioning. Removed margin-based positioning in favor of fixed positioning with transform centering.
 - June 25, 2025. FACEBOOK PIXEL INTEGRATION: Added complete Facebook Pixel tracking system. Base code in HTML head for PageView tracking. Purchase event tracking only on successful order completion with full order value (product + delivery) in DZD currency. Anti-spam protection prevents duplicate tracking during 30-second cooldown period.
+- June 25, 2025. PRODUCT IMAGES UPDATE: Replaced all 4 product images with new sandal images. Updated main image and thumbnail gallery to show brown and black leather sandals with detailed product views including sole design.
 
 ## User Preferences
 
