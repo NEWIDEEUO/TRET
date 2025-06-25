@@ -78,9 +78,9 @@ const DELIVERY_CONFIG = {
 // Completely unavailable provinces (marked as / /)
 const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ_BADJI_MOKHTAR', 'DJANET'];
 
-// Anti-spam configuration
+// Anti-spam configuration - Updated to 10 seconds
 const SPAM_PROTECTION = {
-    cooldownTime: 60000,
+    cooldownTime: 10000, // 10 seconds instead of 60
     lastOrderTime: 'lastOrderTimestamp'
 };
 
@@ -483,7 +483,7 @@ function updateOrderSummary() {
     }
 }
 
-// Validate individual form field
+// Enhanced validation for individual form field
 function validateField(event) {
     const field = event.target;
     const value = field.value.trim();
@@ -502,15 +502,21 @@ function validateField(event) {
         case 'phone':
             const phoneRegex = /^0[567]\d{8}$/;
             const cleanPhone = value.replace(/\s/g, '');
-            if (!phoneRegex.test(cleanPhone)) {
+            if (!cleanPhone) {
                 isValid = false;
-                if (cleanPhone.length !== 10) {
-                    errorMessage = 'رقم الهاتف يجب أن يحتوي على 10 أرقام';
-                } else if (!cleanPhone.startsWith('05') && !cleanPhone.startsWith('06') && !cleanPhone.startsWith('07')) {
-                    errorMessage = 'رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07';
-                } else {
-                    errorMessage = 'رقم الهاتف غير صحيح';
-                }
+                errorMessage = 'رقم الهاتف مطلوب';
+            } else if (cleanPhone.length !== 10) {
+                isValid = false;
+                errorMessage = 'رقم الهاتف يجب أن يحتوي على 10 أرقام';
+            } else if (!cleanPhone.startsWith('05') && !cleanPhone.startsWith('06') && !cleanPhone.startsWith('07')) {
+                isValid = false;
+                errorMessage = 'رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07';
+            } else if (!/^\d+$/.test(cleanPhone)) {
+                isValid = false;
+                errorMessage = 'رقم الهاتف يجب أن يحتوي على أرقام فقط';
+            } else if (!phoneRegex.test(cleanPhone)) {
+                isValid = false;
+                errorMessage = 'رقم الهاتف غير صحيح';
             }
             break;
             
@@ -524,112 +530,151 @@ function validateField(event) {
         case 'commune':
             if (value.length < 2) {
                 isValid = false;
-                errorMessage = 'يرجى إدخال اسم البلدية';
+                errorMessage = 'يرجى إدخال اسم البلدية صحيح';
             }
             break;
     }
     
     if (!isValid) {
         showFieldError(field, errorMessage);
+        field.classList.add('invalid');
     } else {
         removeFieldError(field);
+        field.classList.remove('invalid');
     }
     
     return isValid;
 }
 
-// Show field error
+// Show field error - Enhanced
 function showFieldError(field, message) {
-    field.classList.add('error');
+    field.classList.add('invalid');
     
-    let errorDiv = field.parentNode.querySelector('.error-message');
+    let errorDiv = field.parentNode.querySelector('.validation-error');
     if (!errorDiv) {
         errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
+        errorDiv.className = 'validation-error';
         field.parentNode.appendChild(errorDiv);
     }
     errorDiv.textContent = message;
 }
 
-// Remove field error
+// Remove field error - Enhanced
 function removeFieldError(field) {
-    field.classList.remove('error');
-    const errorDiv = field.parentNode.querySelector('.error-message');
+    field.classList.remove('invalid');
+    const errorDiv = field.parentNode.querySelector('.validation-error');
     if (errorDiv) {
         errorDiv.remove();
     }
 }
 
-// Clear field error on input
+// Clear field error on input - Enhanced
 function clearFieldError(event) {
     const field = event.target;
-    field.classList.remove('error');
+    field.classList.remove('invalid');
     removeFieldError(field);
 }
 
-// Handle order form submission
+// Enhanced order form submission with improved validation and feedback
 async function handleOrderSubmission(event) {
     event.preventDefault();
     
     const form = event.target;
     const submitBtn = form.querySelector('.submit-btn');
     
+    // Check spam protection first
     if (!checkSpamProtection()) {
         return;
     }
     
+    // Clear any previous validation errors
+    document.querySelectorAll('.validation-error').forEach(error => error.remove());
+    document.querySelectorAll('.invalid').forEach(field => field.classList.remove('invalid'));
+    
     const formData = new FormData(form);
     const orderData = Object.fromEntries(formData);
     
+    // Validate the order
     if (!validateOrder(orderData)) {
         return;
     }
     
+    // Set loading state
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
+    submitBtn.textContent = 'جاري الإرسال...';
     
     try {
         await sendTelegramNotifications(orderData);
-        localStorage.setItem(SPAM_PROTECTION.lastOrderTime, Date.now().toString());
-        showModal('تم إرسال طلبك بنجاح!', 'success');
         
+        // Set the timestamp for spam protection
+        localStorage.setItem(SPAM_PROTECTION.lastOrderTime, Date.now().toString());
+        
+        // Show success message
+        showModal('تم إرسال طلبك بنجاح! سنتواصل معك قريباً', 'success');
+        
+        // Reset form after short delay
         setTimeout(() => {
             form.reset();
-            updateOrderSummary();
             document.getElementById('quantity').value = 1;
+            document.getElementById('deliveryTypeGroup').style.display = 'none';
+            resetDeliveryOptions();
+            updateOrderSummary();
         }, 2000);
         
     } catch (error) {
         console.error('Order submission failed:', error);
         showModal('حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.', 'error');
     } finally {
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
+        // Reset button state
+        setTimeout(() => {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> تأكيد الطلب الآن';
+        }, 1000);
     }
 }
 
-// Validate complete order
+// Enhanced complete order validation
 function validateOrder(orderData) {
     const errors = [];
     
+    // Validate full name
     if (!orderData.fullName || orderData.fullName.trim().length < 2) {
-        errors.push('الاسم مطلوب');
+        errors.push('• الاسم الكامل مطلوب');
     }
     
-    if (!orderData.phone || !/^0[567]\d{8}$/.test(orderData.phone.replace(/\s/g, ''))) {
-        errors.push('رقم الهاتف غير صحيح');
+    // Validate phone number
+    const phoneRegex = /^0[567]\d{8}$/;
+    const cleanPhone = orderData.phone ? orderData.phone.replace(/\s/g, '') : '';
+    if (!cleanPhone) {
+        errors.push('• رقم الهاتف مطلوب');
+    } else if (cleanPhone.length !== 10) {
+        errors.push('• رقم الهاتف يجب أن يحتوي على 10 أرقام');
+    } else if (!cleanPhone.startsWith('05') && !cleanPhone.startsWith('06') && !cleanPhone.startsWith('07')) {
+        errors.push('• رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07');
+    } else if (!phoneRegex.test(cleanPhone)) {
+        errors.push('• رقم الهاتف غير صحيح');
     }
     
+    // Validate wilaya
     if (!orderData.wilaya) {
-        errors.push('الولاية مطلوبة');
+        errors.push('• يرجى اختيار الولاية');
     }
     
+    // Validate commune
     if (!orderData.commune || orderData.commune.trim().length < 2) {
-        errors.push('البلدية مطلوبة');
+        errors.push('• البلدية مطلوبة');
+    }
+    
+    // Validate delivery type selection
+    const selectedDeliveryType = document.querySelector('.delivery-option.active');
+    if (orderData.wilaya && !selectedDeliveryType) {
+        errors.push('• يرجى اختيار نوع التوصيل');
     }
     
     if (errors.length > 0) {
-        showModal(errors.join('\n'), 'error');
+        showModal('يرجى تصحيح الأخطاء التالية:\n\n' + errors.join('\n'), 'error');
         return false;
     }
     
@@ -738,7 +783,7 @@ async function sendTelegramMessage(chatId, message) {
     return response.json();
 }
 
-// Show modal message
+// Enhanced modal with better animations and icons
 function showModal(message, type = 'success') {
     const modal = document.getElementById('messageModal');
     const modalMessage = document.getElementById('modalMessage');
@@ -748,14 +793,23 @@ function showModal(message, type = 'success') {
     
     modalMessage.textContent = message;
     
+    // Set modal type and icon
     modal.className = `modal ${type}`;
-    modalIcon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+    modalIcon.className = type === 'success' ? 'fas fa-check-circle modal-icon' : 'fas fa-exclamation-triangle modal-icon';
     
+    // Show modal with animation
     modal.style.display = 'flex';
     
     setTimeout(() => {
         modal.classList.add('show');
     }, 10);
+    
+    // Auto-close success messages after 3 seconds
+    if (type === 'success') {
+        setTimeout(() => {
+            closeModal();
+        }, 3000);
+    }
 }
 
 // Close modal
@@ -774,7 +828,7 @@ function formatArabicNumber(number) {
     return number.toLocaleString('ar-DZ');
 }
 
-// Check spam protection
+// Enhanced spam protection with countdown
 function checkSpamProtection() {
     const lastOrderTime = localStorage.getItem(SPAM_PROTECTION.lastOrderTime);
     if (lastOrderTime) {
@@ -782,6 +836,28 @@ function checkSpamProtection() {
         if (timeDiff < SPAM_PROTECTION.cooldownTime) {
             const remainingTime = Math.ceil((SPAM_PROTECTION.cooldownTime - timeDiff) / 1000);
             showModal(`يرجى الانتظار ${remainingTime} ثانية قبل إرسال طلب آخر`, 'error');
+            
+            // Disable submit button temporarily
+            const submitBtn = document.querySelector('.submit-btn');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = `انتظر ${remainingTime} ثانية`;
+                
+                // Update countdown every second
+                const countdown = setInterval(() => {
+                    const newTimeDiff = Date.now() - parseInt(lastOrderTime);
+                    const newRemainingTime = Math.ceil((SPAM_PROTECTION.cooldownTime - newTimeDiff) / 1000);
+                    
+                    if (newRemainingTime <= 0) {
+                        clearInterval(countdown);
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> تأكيد الطلب الآن';
+                    } else {
+                        submitBtn.textContent = `انتظر ${newRemainingTime} ثانية`;
+                    }
+                }, 1000);
+            }
+            
             return false;
         }
     }
