@@ -16,67 +16,11 @@ const PRODUCT_CONFIG = {
     defaultSize: '40'
 };
 
-// Delivery Configuration - EXACT PRICES FROM USER LIST
-const DELIVERY_CONFIG = {
-    'ADRAR': { home: 1400, office: 970 },
-    'CHLEF': { home: 800, office: 520 },
-    'LAGHOUAT': { home: 950, office: 670 },
-    'OUM EL BOUAGHI': { home: 950, office: 670 },
-    'BATNA': { home: 700, office: 520 },
-    'BEJAIA': { home: 750, office: 520 },
-    'BISKRA': { home: 950, office: 520 },
-    'BECHAR': { home: 1100, office: 720 },
-    'BLIDA': { home: 750, office: 520 },
-    'BOUIRA': { home: 750, office: 520 },
-    'TAMANRASSET': { home: 1600, office: 1120 },
-    'TEBESSA': { home: 750, office: 520 },
-    'TLEMCEN': { home: 750, office: 520 },
-    'TIARET': { home: 800, office: 520 },
-    'TIZI OUZOU': { home: 750, office: 520 },
-    'ALGER': { home: 600, office: 470 },
-    'DJELFA': { home: 950, office: 670 },
-    'JIJEL': { home: 750, office: 520 },
-    'SETIF': { home: 750, office: 520 },
-    'SAIDA': { home: 800, office: 570 },
-    'SKIKDA': { home: 800, office: 520 },
-    'SIDI BEL ABBES': { home: 800, office: 520 },
-    'ANNABA': { home: 700, office: 520 },
-    'GUELMA': { home: 700, office: 520 },
-    'CONSTANTINE': { home: 700, office: 520 },
-    'MEDEA': { home: 800, office: 520 },
-    'MOSTAGANEM': { home: 800, office: 520 },
-    'M\'SILA': { home: 800, office: 620 },
-    'MASCARA': { home: 800, office: 520 },
-    'OUARGLA': { home: 1000, office: 670 },
-    'ORAN': { home: 800, office: 520 },
-    'EL BAYADH': { home: 1100, office: 670 },
-    'BORDJ BOU ARRERIDJ': { home: 750, office: 520 },
-    'BOUMERDES': { home: 750, office: 520 },
-    'EL TARF': { home: 800, office: 520 },
-    'TINDOUF': { home: 1600, office: null },
-    'TISSEMSILT': { home: 800, office: 520 },
-    'EL OUED': { home: 1000, office: 670 },
-    'KHENCHELA': { home: 700, office: 520 },
-    'SOUK AHRAS': { home: 800, office: 370 },
-    'TIPAZA': { home: 750, office: 520 },
-    'MILA': { home: 800, office: 520 },
-    'AIN DEFLA': { home: 750, office: 520 },
-    'NAAMA': { home: 1100, office: 670 },
-    'AIN TEMOUCHENT': { home: 800, office: 520 },
-    'GHARDAIA': { home: 950, office: 670 },
-    'RELIZANE': { home: 800, office: 520 },
-    'TIMIMOUN': { home: 1400, office: 970 },
-    'OULED DJELLAL': { home: 950, office: 620 },
-    'BENI ABBES': { home: 1000, office: 970 },
-    'IN SALAH': { home: 1600, office: null },
-    'IN GUEZZAM': { home: 1600, office: null },
-    'TOUGGOURT': { home: 950, office: 670 },
-    'M\'GHAIR': { home: 950, office: null },
-    'EL MENIA': { home: 1000, office: null }
-};
+// NEW DELIVERY SYSTEM - TO BE POPULATED
+const DELIVERY_CONFIG = {};
 
-// Unavailable provinces (marked as / /)
-const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ BADJI MOKHTAR', 'DJANET'];
+// Unavailable provinces
+const UNAVAILABLE_PROVINCES = [];
 
 // Anti-spam configuration
 const SPAM_PROTECTION = {
@@ -265,85 +209,91 @@ function handleWilayaChange() {
     updateOrderSummary();
 }
 
-// Handle delivery type selection - FIXED VERSION
+// NEW DELIVERY TYPE SELECTION
 function selectDeliveryType(selectedOption) {
     console.log('Delivery type selected:', selectedOption.dataset.type);
     
-    // Remove active class from all delivery options and reset styles
+    // Remove active class from all delivery options
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
         const isHome = option.dataset.type === 'home';
         const borderColor = isHome ? '#28a745' : '#007bff';
         const textColor = isHome ? '#28a745' : '#007bff';
-        const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
-        
-        option.setAttribute('style', `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0);`);
+        option.style.cssText = `padding: 15px 25px; border: 2px solid ${borderColor}; border-radius: 12px; background: white; color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;`;
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
     const isHomeSelected = selectedOption.dataset.type === 'home';
-    const activeBg = isHomeSelected ? 'linear-gradient(135deg, #28a745 0%, #20c997 100%)' : 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
-    const activeShadow = isHomeSelected ? 'rgba(40,167,69,0.4)' : 'rgba(0,123,255,0.4)';
-    
-    selectedOption.setAttribute('style', `padding: 20px 30px; border: 3px solid transparent; border-radius: 15px; background: ${activeBg}; color: white; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 8px 25px ${activeShadow}, 0 0 0 4px rgba(255,255,255,0.8); min-width: 160px; justify-content: center; transform: translateY(-2px);`);
+    const activeBg = isHomeSelected ? '#28a745' : '#007bff';
+    selectedOption.style.cssText = `padding: 15px 25px; border: 2px solid ${activeBg}; border-radius: 12px; background: ${activeBg}; color: white; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); min-width: 140px; justify-content: center;`;
     
     updateDeliveryPrice();
     updateOrderSummary();
 }
 
-// Update delivery price display
+// NEW DELIVERY PRICE UPDATE
 function updateDeliveryPrice() {
     const wilaya = document.getElementById('wilaya').value;
     const selectedDeliveryType = document.querySelector('.delivery-option.active')?.dataset.type;
     const deliveryPriceElement = document.getElementById('deliveryPrice');
     
-    if (!wilaya || !selectedDeliveryType || !deliveryPriceElement) return;
+    if (!wilaya || !selectedDeliveryType || !deliveryPriceElement) {
+        clearDeliveryPrice();
+        return;
+    }
     
     const deliveryConfig = DELIVERY_CONFIG[wilaya];
-    if (!deliveryConfig) return;
+    if (!deliveryConfig) {
+        clearDeliveryPrice();
+        return;
+    }
     
     const deliveryPrice = deliveryConfig[selectedDeliveryType];
-    if (deliveryPrice) {
+    if (deliveryPrice && deliveryPrice > 0) {
         const deliveryTypeText = selectedDeliveryType === 'home' ? 'المنزل' : 'المكتب';
         const iconClass = selectedDeliveryType === 'home' ? 'fa-home' : 'fa-building';
-        deliveryPriceElement.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <i class="fas ${iconClass}" style="color: #155724; font-size: 22px;"></i>
-            <span>تكلفة التوصيل إلى ${deliveryTypeText}: <strong style="color: #155724; font-size: 22px;">${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}</strong></span>
-        </div>`;
-        deliveryPriceElement.style.background = 'linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%)';
-        deliveryPriceElement.style.color = '#155724';
+        deliveryPriceElement.innerHTML = `<i class="fas ${iconClass}" style="margin-left: 8px;"></i>تكلفة التوصيل إلى ${deliveryTypeText}: <strong>${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}</strong>`;
+        deliveryPriceElement.style.color = '#28a745';
+        deliveryPriceElement.style.background = '#d4edda';
         deliveryPriceElement.style.borderColor = '#c3e6cb';
     } else {
-        deliveryPriceElement.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <i class="fas fa-times-circle" style="color: #721c24; font-size: 22px;"></i>
-            <span style="color: #721c24; font-weight: 700;">التوصيل غير متاح لهذا النوع</span>
-        </div>`;
-        deliveryPriceElement.style.background = 'linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%)';
-        deliveryPriceElement.style.color = '#721c24';
+        deliveryPriceElement.innerHTML = `<i class="fas fa-times-circle" style="margin-left: 8px;"></i>التوصيل غير متاح لهذا النوع`;
+        deliveryPriceElement.style.color = '#dc3545';
+        deliveryPriceElement.style.background = '#f8d7da';
         deliveryPriceElement.style.borderColor = '#f5c6cb';
     }
 }
 
-// Get Arabic name for wilaya code
+// Clear delivery price display
+function clearDeliveryPrice() {
+    const deliveryPriceElement = document.getElementById('deliveryPrice');
+    if (deliveryPriceElement) {
+        deliveryPriceElement.innerHTML = '';
+        deliveryPriceElement.style.color = '';
+        deliveryPriceElement.style.background = '#f8f9fa';
+        deliveryPriceElement.style.borderColor = '#dee2e6';
+    }
+}
+
+// Reset delivery options to default state
+function resetDeliveryOptions() {
+    const deliveryOptions = document.querySelectorAll('.delivery-option');
+    deliveryOptions.forEach(option => {
+        option.classList.remove('active');
+        const isHome = option.dataset.type === 'home';
+        const borderColor = isHome ? '#28a745' : '#007bff';
+        const textColor = isHome ? '#28a745' : '#007bff';
+        option.style.cssText = `padding: 15px 25px; border: 2px solid ${borderColor}; border-radius: 12px; background: white; color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;`;
+    });
+    clearDeliveryPrice();
+}
+
+// Get Arabic name for wilaya code - TO BE UPDATED
 function getWilayaArabicName(wilayaCode) {
-    const wilayaNames = {
-        'ADRAR': 'أدرار', 'CHLEF': 'الشلف', 'LAGHOUAT': 'الأغواط', 'OUM EL BOUAGHI': 'أم البواقي',
-        'BATNA': 'باتنة', 'BEJAIA': 'بجاية', 'BISKRA': 'بسكرة', 'BECHAR': 'بشار', 'BLIDA': 'البليدة',
-        'BOUIRA': 'البويرة', 'TAMANRASSET': 'تمنراست', 'TEBESSA': 'تبسة', 'TLEMCEN': 'تلمسان', 'TIARET': 'تيارت',
-        'TIZI OUZOU': 'تيزي وزو', 'ALGER': 'الجزائر', 'DJELFA': 'الجلفة', 'JIJEL': 'جيجل', 'SETIF': 'سطيف',
-        'SAIDA': 'سعيدة', 'SKIKDA': 'سكيكدة', 'SIDI BEL ABBES': 'سيدي بلعباس', 'ANNABA': 'عنابة', 'GUELMA': 'قالمة',
-        'CONSTANTINE': 'قسنطينة', 'MEDEA': 'المدية', 'MOSTAGANEM': 'مستغانم', 'M\'SILA': 'المسيلة', 'MASCARA': 'معسكر',
-        'OUARGLA': 'ورقلة', 'ORAN': 'وهران', 'EL BAYADH': 'البيض', 'BORDJ BOU ARRERIDJ': 'برج بو عريريج',
-        'BOUMERDES': 'بومرداس', 'EL TARF': 'الطارف', 'TINDOUF': 'تندوف', 'TISSEMSILT': 'تيسمسيلت',
-        'EL OUED': 'الوادي', 'KHENCHELA': 'خنشلة', 'SOUK AHRAS': 'سوق أهراس', 'TIPAZA': 'تيبازة',
-        'MILA': 'ميلة', 'AIN DEFLA': 'عين الدفلى', 'NAAMA': 'النعامة', 'AIN TEMOUCHENT': 'عين تموشنت',
-        'GHARDAIA': 'غرداية', 'RELIZANE': 'غليزان', 'TIMIMOUN': 'تيميمون', 'OULED DJELLAL': 'أولاد جلال',
-        'BENI ABBES': 'بني عباس', 'IN SALAH': 'إن صالح', 'IN GUEZZAM': 'إن قزام', 'TOUGGOURT': 'توقرت',
-        'M\'GHAIR': 'المغير', 'EL MENIA': 'المنيعة'
-    };
-    return wilayaNames[wilayaCode] || wilayaCode;
+    // This will be populated with the new wilaya data
+    return wilayaCode;
 }
 
 // Update order summary - FIXED VERSION
