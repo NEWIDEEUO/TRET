@@ -265,26 +265,32 @@ function handleWilayaChange() {
     updateOrderSummary();
 }
 
-// NEW DELIVERY TYPE SELECTION
+// DELIVERY TYPE SELECTION - COMPLETELY FIXED
 function selectDeliveryType(selectedOption) {
     console.log('Delivery type selected:', selectedOption.dataset.type);
     
-    // Remove active class from all delivery options
+    // Remove active class from all delivery options and reset styles
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
         option.classList.remove('active');
         const isHome = option.dataset.type === 'home';
         const borderColor = isHome ? '#28a745' : '#007bff';
         const textColor = isHome ? '#28a745' : '#007bff';
-        option.style.cssText = `padding: 15px 25px; border: 2px solid ${borderColor}; border-radius: 12px; background: white; color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;`;
+        const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
+        
+        option.style.cssText = `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0); position: relative; overflow: hidden;`;
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
     const isHomeSelected = selectedOption.dataset.type === 'home';
     const activeBg = isHomeSelected ? '#28a745' : '#007bff';
-    selectedOption.style.cssText = `padding: 15px 25px; border: 2px solid ${activeBg}; border-radius: 12px; background: ${activeBg}; color: white; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4); min-width: 140px; justify-content: center;`;
+    const activeColor = 'white';
+    const activeShadow = isHomeSelected ? 'rgba(40,167,69,0.6)' : 'rgba(0,123,255,0.6)';
     
+    selectedOption.style.cssText = `padding: 20px 30px; border: 3px solid ${activeBg}; border-radius: 15px; background: ${activeBg}; color: ${activeColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 0 0 4px ${activeShadow}; min-width: 160px; justify-content: center; transform: translateY(-2px); position: relative; overflow: hidden;`;
+    
+    // Update delivery price and summary
     updateDeliveryPrice();
     updateOrderSummary();
 }
@@ -333,7 +339,7 @@ function clearDeliveryPrice() {
     }
 }
 
-// Reset delivery options to default state
+// Reset delivery options to default state - FIXED VERSION
 function resetDeliveryOptions() {
     const deliveryOptions = document.querySelectorAll('.delivery-option');
     deliveryOptions.forEach(option => {
@@ -341,7 +347,9 @@ function resetDeliveryOptions() {
         const isHome = option.dataset.type === 'home';
         const borderColor = isHome ? '#28a745' : '#007bff';
         const textColor = isHome ? '#28a745' : '#007bff';
-        option.style.cssText = `padding: 15px 25px; border: 2px solid ${borderColor}; border-radius: 12px; background: white; color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); min-width: 140px; justify-content: center;`;
+        const shadowColor = isHome ? 'rgba(40,167,69,0.2)' : 'rgba(0,123,255,0.2)';
+        
+        option.style.cssText = `padding: 20px 30px; border: 3px solid ${borderColor}; border-radius: 15px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); color: ${textColor}; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; transition: all 0.4s ease; box-shadow: 0 6px 20px ${shadowColor}; min-width: 160px; justify-content: center; transform: translateY(0); position: relative; overflow: hidden;`;
     });
     clearDeliveryPrice();
 }
@@ -422,7 +430,10 @@ function updateOrderSummary() {
     // Calculate delivery price
     let deliveryPrice = 0;
     if (wilaya && selectedDeliveryType && DELIVERY_CONFIG[wilaya]) {
-        deliveryPrice = DELIVERY_CONFIG[wilaya][selectedDeliveryType] || 0;
+        const deliveryConfig = DELIVERY_CONFIG[wilaya];
+        if (deliveryConfig && deliveryConfig[selectedDeliveryType] !== null) {
+            deliveryPrice = deliveryConfig[selectedDeliveryType] || 0;
+        }
     }
     
     // Calculate total price
@@ -637,7 +648,10 @@ async function sendTelegramNotifications(orderData) {
     // Calculate delivery price
     let deliveryPrice = 0;
     if (orderData.wilaya && DELIVERY_CONFIG[orderData.wilaya]) {
-        deliveryPrice = DELIVERY_CONFIG[orderData.wilaya][selectedDeliveryType] || 0;
+        const deliveryConfig = DELIVERY_CONFIG[orderData.wilaya];
+        if (deliveryConfig && deliveryConfig[selectedDeliveryType] !== null) {
+            deliveryPrice = deliveryConfig[selectedDeliveryType] || 0;
+        }
     }
     
     // Calculate total price
