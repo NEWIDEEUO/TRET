@@ -1,11 +1,11 @@
 // Configuration for Telegram Bot Integration
 const TELEGRAM_CONFIG = {
-    botToken: '7876081209:AAFyU4TWjxCFQqujQlOMFrRJ25g7Op8kRGs', // Updated bot token
-    notificationChatId: '-1002627960936', // Channel 1 - Short notifications only
-    detailsChatId: '-1002892510302' // Channel 2 - Full order details
+    botToken: '7876081209:AAFyU4TWjxCFQqujQlOMFrRJ25g7Op8kRGs',
+    notificationChatId: '-1002627960936',
+    detailsChatId: '-1002892510302'
 };
 
-// Product configuration - easily modifiable for different products
+// Product configuration
 const PRODUCT_CONFIG = {
     basePrice: 2500,
     originalPrice: 2800,
@@ -75,12 +75,12 @@ const DELIVERY_CONFIG = {
     'EL MENIA': { home: 1000, office: null }
 };
 
-// Unavailable provinces (marked as / /)
+// Unavailable provinces
 const UNAVAILABLE_PROVINCES = ['ILLIZI', 'BORDJ BADJI MOKHTAR', 'DJANET'];
 
 // Anti-spam configuration
 const SPAM_PROTECTION = {
-    cooldownTime: 60000, // 1 minute cooldown between orders
+    cooldownTime: 60000,
     lastOrderTime: 'lastOrderTimestamp'
 };
 
@@ -89,24 +89,20 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
     updatePriceDisplay();
     updateOrderSummary();
-    initializePriceAnimations();
 });
 
-/**
- * Initialize all event listeners
- */
+// Initialize all event listeners
 function initializeEventListeners() {
-    // Order form submission
     const orderForm = document.getElementById('orderForm');
-    orderForm.addEventListener('submit', handleOrderSubmission);
+    if (orderForm) {
+        orderForm.addEventListener('submit', handleOrderSubmission);
+    }
 
-    // No additional listeners needed - handleWilayaChange is called via onchange attribute
-
-    // Quantity change listeners
     const quantityInput = document.getElementById('quantity');
-    quantityInput.addEventListener('change', updateOrderSummary);
+    if (quantityInput) {
+        quantityInput.addEventListener('change', updateOrderSummary);
+    }
 
-    // Form validation on input
     const formInputs = document.querySelectorAll('#orderForm input, #orderForm select');
     formInputs.forEach(input => {
         input.addEventListener('blur', validateField);
@@ -114,23 +110,17 @@ function initializeEventListeners() {
     });
 }
 
-/**
- * Change main product image when thumbnail is clicked
- * @param {HTMLElement} thumbnail - The clicked thumbnail element
- */
+// Change main product image
 function changeMainImage(thumbnail) {
     const mainImage = document.getElementById('mainImage');
     const currentActive = document.querySelector('.thumbnail.active');
     
-    // Remove active class from current thumbnail
     if (currentActive) {
         currentActive.classList.remove('active');
     }
     
-    // Add active class to clicked thumbnail
     thumbnail.classList.add('active');
     
-    // Change main image with smooth transition
     mainImage.style.opacity = '0.7';
     
     setTimeout(() => {
@@ -140,17 +130,13 @@ function changeMainImage(thumbnail) {
     }, 150);
 }
 
-/**
- * Handle quantity change
- * @param {number} change - The change amount (+1 or -1)
- */
+// Handle quantity change
 function changeQuantity(change) {
     const quantityInput = document.getElementById('quantity');
     let currentQuantity = parseInt(quantityInput.value) || 1;
     
     currentQuantity += change;
     
-    // Ensure quantity is at least 1
     if (currentQuantity < 1) {
         currentQuantity = 1;
     }
@@ -159,60 +145,55 @@ function changeQuantity(change) {
     updateOrderSummary();
 }
 
-/**
- * Handle color selection
- * @param {HTMLElement} selectedOption - The selected color option
- */
+// Handle color selection - FIXED VERSION
 function selectColor(selectedOption) {
-    // Remove active class and reset borders for all color options
+    console.log('Color selected:', selectedOption.dataset.color);
+    
+    // Remove active class from all color options
     const colorOptions = document.querySelectorAll('.color-circle');
     colorOptions.forEach(option => {
         option.classList.remove('active');
-        option.style.border = '3px solid #ddd';
+        // Reset to default border
+        option.style.border = '3px solid #ddd !important';
         option.style.transform = 'scale(1)';
         option.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.style.border = '3px solid #007bff';
+    selectedOption.style.border = '3px solid #007bff !important';
     selectedOption.style.transform = 'scale(1.05)';
     selectedOption.style.boxShadow = '0 0 0 4px rgba(0, 123, 255, 0.4)';
     
-    // Update order summary
     updateOrderSummary();
 }
 
-/**
- * Handle size selection
- * @param {HTMLElement} selectedOption - The selected size option
- */
+// Handle size selection - FIXED VERSION
 function selectSize(selectedOption) {
-    // Remove active class and reset styles for all size options
+    console.log('Size selected:', selectedOption.dataset.size);
+    
+    // Remove active class from all size options
     const sizeOptions = document.querySelectorAll('.size-circle');
     sizeOptions.forEach(option => {
         option.classList.remove('active');
-        option.style.background = 'white';
-        option.style.color = '#495057';
-        option.style.border = '2px solid #dee2e6';
-        option.style.transform = 'translateY(0)';
+        // Reset to default styles
+        option.style.background = 'white !important';
+        option.style.color = '#495057 !important';
+        option.style.border = '2px solid #dee2e6 !important';
         option.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.1)';
     });
     
     // Add active class and highlight selected option
     selectedOption.classList.add('active');
-    selectedOption.style.background = '#007bff';
-    selectedOption.style.color = 'white';
-    selectedOption.style.border = '2px solid #007bff';
+    selectedOption.style.background = '#007bff !important';
+    selectedOption.style.color = 'white !important';
+    selectedOption.style.border = '2px solid #007bff !important';
     selectedOption.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.4)';
     
-    // Update order summary
     updateOrderSummary();
 }
 
-/**
- * Update price display
- */
+// Update price display
 function updatePriceDisplay() {
     const currentPriceElement = document.getElementById('currentPrice');
     const originalPriceElement = document.getElementById('originalPrice');
@@ -226,12 +207,141 @@ function updatePriceDisplay() {
     }
 }
 
-/**
- * Update order summary
- */
-function updateOrderSummary() {
-    const quantity = parseInt(document.getElementById('quantity').value) || 1;
+// Handle wilaya selection change - FIXED VERSION
+function handleWilayaChange() {
+    console.log('Wilaya changed');
+    const wilayaSelect = document.getElementById('wilaya');
+    const deliveryTypeGroup = document.getElementById('deliveryTypeGroup');
+    const selectedWilaya = wilayaSelect.value;
+    
+    console.log('Selected wilaya:', selectedWilaya);
+    
+    if (!selectedWilaya) {
+        deliveryTypeGroup.style.display = 'none';
+        updateOrderSummary();
+        return;
+    }
+    
+    // Check if wilaya is unavailable
+    if (UNAVAILABLE_PROVINCES.includes(selectedWilaya)) {
+        showModal('عذراً، التوصيل غير متاح لهذه الولاية حالياً', 'error');
+        wilayaSelect.value = '';
+        deliveryTypeGroup.style.display = 'none';
+        updateOrderSummary();
+        return;
+    }
+    
+    // Show delivery type options
+    deliveryTypeGroup.style.display = 'block';
+    
+    // Update delivery options availability
+    const deliveryConfig = DELIVERY_CONFIG[selectedWilaya];
+    const homeOption = document.querySelector('.delivery-option[data-type="home"]');
+    const officeOption = document.querySelector('.delivery-option[data-type="office"]');
+    
+    // Reset options
+    if (homeOption) homeOption.style.display = 'flex';
+    if (officeOption) officeOption.style.display = 'flex';
+    
+    // Hide unavailable options
+    if (!deliveryConfig || deliveryConfig.home === null) {
+        if (homeOption) homeOption.style.display = 'none';
+    }
+    if (!deliveryConfig || deliveryConfig.office === null) {
+        if (officeOption) officeOption.style.display = 'none';
+    }
+    
+    // Select first available option
+    const visibleOptions = Array.from(document.querySelectorAll('.delivery-option')).filter(opt => 
+        opt.style.display !== 'none'
+    );
+    
+    if (visibleOptions.length > 0) {
+        // Reset all options
+        document.querySelectorAll('.delivery-option').forEach(opt => {
+            opt.classList.remove('active');
+            opt.style.background = 'white !important';
+            opt.style.color = '#495057 !important';
+            opt.style.border = '2px solid #dee2e6 !important';
+        });
+        
+        // Activate first available option
+        selectDeliveryType(visibleOptions[0]);
+    }
+    
+    updateOrderSummary();
+}
+
+// Handle delivery type selection - FIXED VERSION
+function selectDeliveryType(selectedOption) {
+    console.log('Delivery type selected:', selectedOption.dataset.type);
+    
+    // Remove active class from all delivery options
+    const deliveryOptions = document.querySelectorAll('.delivery-option');
+    deliveryOptions.forEach(option => {
+        option.classList.remove('active');
+        option.style.background = 'white !important';
+        option.style.color = '#495057 !important';
+        option.style.border = '2px solid #dee2e6 !important';
+        option.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.1)';
+    });
+    
+    // Add active class and highlight selected option
+    selectedOption.classList.add('active');
+    selectedOption.style.background = '#007bff !important';
+    selectedOption.style.color = 'white !important';
+    selectedOption.style.border = '2px solid #007bff !important';
+    selectedOption.style.boxShadow = '0 0 0 3px rgba(0, 123, 255, 0.4)';
+    
+    updateDeliveryPrice();
+    updateOrderSummary();
+}
+
+// Update delivery price display
+function updateDeliveryPrice() {
     const wilaya = document.getElementById('wilaya').value;
+    const selectedDeliveryType = document.querySelector('.delivery-option.active')?.dataset.type;
+    const deliveryPriceElement = document.getElementById('deliveryPrice');
+    
+    if (!wilaya || !selectedDeliveryType || !deliveryPriceElement) return;
+    
+    const deliveryConfig = DELIVERY_CONFIG[wilaya];
+    if (!deliveryConfig) return;
+    
+    const deliveryPrice = deliveryConfig[selectedDeliveryType];
+    if (deliveryPrice) {
+        deliveryPriceElement.textContent = `تكلفة التوصيل: ${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}`;
+    } else {
+        deliveryPriceElement.textContent = 'التوصيل غير متاح لهذا النوع';
+    }
+}
+
+// Get Arabic name for wilaya code
+function getWilayaArabicName(wilayaCode) {
+    const wilayaNames = {
+        'ADRAR': 'أدرار', 'CHLEF': 'الشلف', 'LAGHOUAT': 'الأغواط', 'OUM EL BOUAGHI': 'أم البواقي',
+        'BATNA': 'باتنة', 'BEJAIA': 'بجاية', 'BISKRA': 'بسكرة', 'BECHAR': 'بشار', 'BLIDA': 'البليدة',
+        'BOUIRA': 'البويرة', 'TAMANRASSET': 'تمنراست', 'TEBESSA': 'تبسة', 'TLEMCEN': 'تلمسان', 'TIARET': 'تيارت',
+        'TIZI OUZOU': 'تيزي وزو', 'ALGER': 'الجزائر', 'DJELFA': 'الجلفة', 'JIJEL': 'جيجل', 'SETIF': 'سطيف',
+        'SAIDA': 'سعيدة', 'SKIKDA': 'سكيكدة', 'SIDI BEL ABBES': 'سيدي بلعباس', 'ANNABA': 'عنابة', 'GUELMA': 'قالمة',
+        'CONSTANTINE': 'قسنطينة', 'MEDEA': 'المدية', 'MOSTAGANEM': 'مستغانم', 'MSILA': 'المسيلة', 'MASCARA': 'معسكر',
+        'OUARGLA': 'ورقلة', 'ORAN': 'وهران', 'EL BAYADH': 'البيض', 'BORDJ BOU ARRERIDJ': 'برج بو عريريج',
+        'BOUMERDES': 'بومرداس', 'EL TARF': 'الطارف', 'TINDOUF': 'تندوف', 'TISSEMSILT': 'تيسمسيلت',
+        'EL OUED': 'الوادي', 'KHENCHELA': 'خنشلة', 'SOUK AHRAS': 'سوق أهراس', 'TIPAZA': 'تيبازة',
+        'MILA': 'ميلة', 'AIN DEFLA': 'عين الدفلى', 'NAAMA': 'النعامة', 'AIN TEMOUCHENT': 'عين تموشنت',
+        'GHARDAIA': 'غرداية', 'RELIZANE': 'غليزان', 'TIMIMOUN': 'تيميمون', 'OULED DJELLAL': 'أولاد جلال',
+        'BENI ABBES': 'بني عباس', 'IN SALAH': 'إن صالح', 'IN GUEZZAM': 'إن قزام', 'TOUGGOURT': 'توقرت',
+        'MGHAIR': 'المغير', 'EL MENIA': 'المنيعة'
+    };
+    return wilayaNames[wilayaCode] || wilayaCode;
+}
+
+// Update order summary - FIXED VERSION
+function updateOrderSummary() {
+    console.log('Updating order summary');
+    
+    const quantity = parseInt(document.getElementById('quantity')?.value) || 1;
+    const wilaya = document.getElementById('wilaya')?.value;
     const selectedDeliveryType = document.querySelector('.delivery-option.active')?.dataset.type;
     
     // Calculate product price
@@ -250,6 +360,10 @@ function updateOrderSummary() {
     const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
     const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     
+    console.log('Summary values:', {
+        quantity, wilaya, selectedDeliveryType, productPrice, deliveryPrice, totalPrice, selectedColor, selectedSize
+    });
+    
     // Update summary elements
     const summaryQuantity = document.getElementById('summaryQuantity');
     const summaryWilaya = document.getElementById('summaryWilaya');
@@ -258,48 +372,41 @@ function updateOrderSummary() {
     const summarySize = document.getElementById('summarySize');
     const summaryDelivery = document.getElementById('summaryDelivery');
     
-    if (summaryQuantity) summaryQuantity.textContent = formatArabicNumber(quantity);
-    if (summaryWilaya) summaryWilaya.textContent = wilaya ? getWilayaArabicName(wilaya) : 'غير محدد';
-    if (summaryTotal) summaryTotal.textContent = formatArabicNumber(totalPrice);
-    if (summaryColor) summaryColor.textContent = selectedColor;
-    if (summarySize) summarySize.textContent = selectedSize;
-    if (summaryDelivery) summaryDelivery.textContent = formatArabicNumber(deliveryPrice) + ' د.ج';
-    const quantity = parseInt(document.getElementById('quantity').value) || 1;
-    const wilaya = document.getElementById('wilaya').value;
-    const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
-    
-    // Get selected color and size
-    const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
-    const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
-    
-    // Update summary elements
-    const summaryQuantity = document.getElementById('summaryQuantity');
-    const summaryPrice = document.getElementById('summaryPrice');
-    const summaryWilaya = document.getElementById('summaryWilaya');
-    const totalPriceElement = document.getElementById('totalPrice');
-    
-    if (summaryQuantity) summaryQuantity.textContent = quantity;
-    if (summaryPrice) summaryPrice.textContent = PRODUCT_CONFIG.basePrice.toLocaleString();
-    if (summaryWilaya) summaryWilaya.textContent = wilaya || '-';
-    if (totalPriceElement) totalPriceElement.textContent = totalPrice.toLocaleString();
+    if (summaryQuantity) {
+        summaryQuantity.textContent = formatArabicNumber(quantity);
+        console.log('Updated quantity:', summaryQuantity.textContent);
+    }
+    if (summaryWilaya) {
+        summaryWilaya.textContent = wilaya ? getWilayaArabicName(wilaya) : 'غير محدد';
+        console.log('Updated wilaya:', summaryWilaya.textContent);
+    }
+    if (summaryTotal) {
+        summaryTotal.textContent = formatArabicNumber(totalPrice);
+        console.log('Updated total:', summaryTotal.textContent);
+    }
+    if (summaryColor) {
+        summaryColor.textContent = selectedColor;
+        console.log('Updated color:', summaryColor.textContent);
+    }
+    if (summarySize) {
+        summarySize.textContent = selectedSize;
+        console.log('Updated size:', summarySize.textContent);
+    }
+    if (summaryDelivery) {
+        summaryDelivery.textContent = formatArabicNumber(deliveryPrice) + ' د.ج';
+        console.log('Updated delivery:', summaryDelivery.textContent);
+    }
 }
 
-/**
- * Validate individual form field
- * @param {Event} event - The blur event
- */
+// Validate individual form field
 function validateField(event) {
     const field = event.target;
     const value = field.value.trim();
+    const fieldName = field.name || field.id;
     let isValid = true;
     let errorMessage = '';
     
-    // Remove existing error styling
-    field.classList.remove('error');
-    removeFieldError(field);
-    
-    // Validation rules
-    switch (field.name) {
+    switch (fieldName) {
         case 'fullName':
             if (value.length < 2) {
                 isValid = false;
@@ -308,7 +415,6 @@ function validateField(event) {
             break;
             
         case 'phone':
-            // Enhanced phone validation: 10 digits starting with 05, 06, or 07
             const phoneRegex = /^0[567]\d{8}$/;
             const cleanPhone = value.replace(/\s/g, '');
             if (!phoneRegex.test(cleanPhone)) {
@@ -340,71 +446,53 @@ function validateField(event) {
     
     if (!isValid) {
         showFieldError(field, errorMessage);
+    } else {
+        removeFieldError(field);
     }
     
     return isValid;
 }
 
-/**
- * Show field error
- * @param {HTMLElement} field - The form field
- * @param {string} message - Error message
- */
+// Show field error
 function showFieldError(field, message) {
     field.classList.add('error');
     
-    // Create error message element
-    const errorElement = document.createElement('div');
-    errorElement.className = 'field-error';
-    errorElement.textContent = message;
-    errorElement.style.cssText = `
-        color: #dc3545;
-        font-size: 12px;
-        margin-top: 5px;
-        display: block;
-    `;
-    
-    // Insert after the field
-    field.parentNode.appendChild(errorElement);
+    let errorDiv = field.parentNode.querySelector('.error-message');
+    if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        field.parentNode.appendChild(errorDiv);
+    }
+    errorDiv.textContent = message;
 }
 
-/**
- * Remove field error
- * @param {HTMLElement} field - The form field
- */
+// Remove field error
 function removeFieldError(field) {
-    const errorElement = field.parentNode.querySelector('.field-error');
-    if (errorElement) {
-        errorElement.remove();
+    field.classList.remove('error');
+    const errorDiv = field.parentNode.querySelector('.error-message');
+    if (errorDiv) {
+        errorDiv.remove();
     }
 }
 
-/**
- * Clear field error on input
- * @param {Event} event - The input event
- */
+// Clear field error on input
 function clearFieldError(event) {
     const field = event.target;
     field.classList.remove('error');
     removeFieldError(field);
 }
 
-/**
- * Handle order form submission
- * @param {Event} event - The form submission event
- */
+// Handle order form submission
 async function handleOrderSubmission(event) {
     event.preventDefault();
     
     const form = event.target;
     const submitBtn = form.querySelector('.submit-btn');
     
-    // Check for spam protection
     if (!checkSpamProtection()) {
         return;
     }
     
-    // Validate all fields
     const formData = new FormData(form);
     const orderData = Object.fromEntries(formData);
     
@@ -412,74 +500,62 @@ async function handleOrderSubmission(event) {
         return;
     }
     
-    // Show loading state
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
     
     try {
-        // Send to Telegram channels
         await sendTelegramNotifications(orderData);
-        
-        // Set spam protection timestamp
         localStorage.setItem(SPAM_PROTECTION.lastOrderTime, Date.now().toString());
-        
-        // Show success message
         showModal('تم إرسال طلبك بنجاح!', 'success');
         
-        // Reset form after successful submission
         setTimeout(() => {
             form.reset();
             updateOrderSummary();
-            // Reset quantity to 1
             document.getElementById('quantity').value = 1;
         }, 2000);
         
     } catch (error) {
-        console.error('Error submitting order:', error);
-        showModal('حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.', 'error');
+        console.error('Order submission failed:', error);
+        showModal('حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.', 'error');
     } finally {
-        // Remove loading state
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
     }
 }
 
-/**
- * Validate complete order
- * @param {Object} orderData - The order data
- * @returns {boolean} - Whether the order is valid
- */
+// Validate complete order
 function validateOrder(orderData) {
-    const requiredFields = ['fullName', 'phone', 'wilaya', 'commune', 'quantity'];
-    let isValid = true;
+    const errors = [];
     
-    requiredFields.forEach(fieldName => {
-        const field = document.getElementById(fieldName);
-        const event = { target: field };
-        
-        if (!validateField(event)) {
-            isValid = false;
-        }
-    });
+    if (!orderData.fullName || orderData.fullName.trim().length < 2) {
+        errors.push('الاسم مطلوب');
+    }
     
-    return isValid;
+    if (!orderData.phone || !/^0[567]\d{8}$/.test(orderData.phone.replace(/\s/g, ''))) {
+        errors.push('رقم الهاتف غير صحيح');
+    }
+    
+    if (!orderData.wilaya) {
+        errors.push('الولاية مطلوبة');
+    }
+    
+    if (!orderData.commune || orderData.commune.trim().length < 2) {
+        errors.push('البلدية مطلوبة');
+    }
+    
+    if (errors.length > 0) {
+        showModal(errors.join('\n'), 'error');
+        return false;
+    }
+    
+    return true;
 }
 
-/**
- * Send notifications to Telegram channels
- * @param {Object} orderData - The order data
- */
+// Send notifications to Telegram channels
 async function sendTelegramNotifications(orderData) {
     const quantity = parseInt(orderData.quantity) || 1;
-    const totalPrice = PRODUCT_CONFIG.basePrice * quantity;
     const currentTime = new Date().toLocaleString('ar-DZ');
     
-    // Notification message (Channel 1) - Simple alert with customer name
-    const notificationMessage = `🚨 تم استلام طلب جديد
-👤 العميل: ${orderData.fullName}
-💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
-    
-    // Get selected options
     const selectedColor = document.querySelector('.color-circle.active')?.dataset.color || PRODUCT_CONFIG.defaultColor;
     const selectedSize = document.querySelector('.size-circle.active')?.dataset.size || PRODUCT_CONFIG.defaultSize;
     const selectedDeliveryType = document.querySelector('.delivery-option.active')?.dataset.type || 'home';
@@ -490,65 +566,65 @@ async function sendTelegramNotifications(orderData) {
         deliveryPrice = DELIVERY_CONFIG[orderData.wilaya][selectedDeliveryType] || 0;
     }
     
-    // Detailed message (Channel 2) - Complete order information
+    // Calculate total price
+    const productPrice = PRODUCT_CONFIG.basePrice * quantity;
+    const totalPrice = productPrice + deliveryPrice;
+    
+    // Short notification message (Channel 1)
+    const notificationMessage = `🚨 تم استلام طلب جديد
+👤 العميل: ${orderData.fullName}
+💰 القيمة: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}`;
+    
+    // Detailed message (Channel 2)
     const detailsMessage = `🛒 <b>طلب جديد - ${PRODUCT_CONFIG.productName}</b>
 
-👤 <b>بيانات العميل:</b>
+👤 <b>معلومات العميل:</b>
 الاسم: ${orderData.fullName}
 الهاتف: ${orderData.phone}
-
-📍 <b>عنوان التوصيل:</b>
-الولاية: ${orderData.wilaya}
+الولاية: ${getWilayaArabicName(orderData.wilaya)}
 البلدية: ${orderData.commune}
 
-🛍️ <b>تفاصيل الطلب:</b>
-المنتج: ${PRODUCT_CONFIG.productName}
+🎯 <b>تفاصيل المنتج:</b>
+الكمية: ${orderData.quantity}
 اللون: ${selectedColor}
 المقاس: ${selectedSize}
-الكمية: ${quantity}
-السعر: ${PRODUCT_CONFIG.basePrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
-السعر الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
+السعر الأساسي: ${PRODUCT_CONFIG.basePrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 
-⏰ <b>وقت الطلب:</b> ${currentTime}
+🚚 <b>تفاصيل التوصيل:</b>
+نوع التوصيل: ${selectedDeliveryType === 'home' ? 'إلى المنزل' : 'إلى المكتب'}
+تكلفة التوصيل: ${deliveryPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 
-✅ يرجى التواصل مع العميل لتأكيد الطلب`;
+💰 <b>المبلغ الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
+
+⏰ تاريخ الطلب: ${new Date().toLocaleString('ar-DZ')}
+🆔 معرف الطلب: #${Date.now().toString().slice(-6)}`;
     
     // Send to both channels
     const promises = [];
     
-    if (TELEGRAM_CONFIG.notificationChatId && TELEGRAM_CONFIG.notificationChatId !== 'YOUR_NOTIFICATION_CHAT_ID') {
+    if (TELEGRAM_CONFIG.notificationChatId) {
         promises.push(sendTelegramMessage(TELEGRAM_CONFIG.notificationChatId, notificationMessage));
     }
     
-    if (TELEGRAM_CONFIG.detailsChatId && TELEGRAM_CONFIG.detailsChatId !== 'YOUR_DETAILS_CHAT_ID') {
+    if (TELEGRAM_CONFIG.detailsChatId) {
         promises.push(sendTelegramMessage(TELEGRAM_CONFIG.detailsChatId, detailsMessage));
     }
     
-    // If no valid chat IDs configured, simulate success for demo
     if (promises.length === 0) {
-        console.log('Telegram configuration needed. Order data:', {
-            notification: notificationMessage,
-            details: detailsMessage
-        });
-        return Promise.resolve();
+        throw new Error('No Telegram channels configured');
     }
     
-    return Promise.all(promises);
+    const results = await Promise.allSettled(promises);
+    const failures = results.filter(result => result.status === 'rejected');
+    
+    if (failures.length === results.length) {
+        throw new Error('All Telegram notifications failed');
+    }
 }
 
-/**
- * Send message to Telegram chat
- * @param {string} chatId - The chat ID
- * @param {string} message - The message to send
- */
+// Send message to Telegram chat
 async function sendTelegramMessage(chatId, message) {
-    const botToken = TELEGRAM_CONFIG.botToken;
-    
-    if (!botToken || botToken === 'YOUR_BOT_TOKEN') {
-        throw new Error('Telegram bot token not configured');
-    }
-    
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    const url = `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
     
     const response = await fetch(url, {
         method: 'POST',
@@ -563,153 +639,118 @@ async function sendTelegramMessage(chatId, message) {
     });
     
     if (!response.ok) {
-        throw new Error(`Telegram API error: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(`Telegram API error: ${errorData.description || 'Unknown error'}`);
     }
     
     return response.json();
 }
 
-/**
- * Show modal message
- * @param {string} message - The message to show
- * @param {string} type - The message type ('success' or 'error')
- */
+// Show modal message
 function showModal(message, type = 'success') {
     const modal = document.getElementById('messageModal');
     const modalMessage = document.getElementById('modalMessage');
+    const modalIcon = document.getElementById('modalIcon');
     
-    modalMessage.innerHTML = `
-        <div class="${type}-message">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-            <p>${message}</p>
-        </div>
-    `;
+    if (!modal || !modalMessage || !modalIcon) return;
     
-    modal.style.display = 'block';
+    modalMessage.textContent = message;
     
-    // Auto close after 3 seconds for success messages
-    if (type === 'success') {
-        setTimeout(() => {
-            closeModal();
-        }, 3000);
-    }
+    modal.className = `modal ${type}`;
+    modalIcon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+    
+    modal.style.display = 'flex';
+    
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
 }
 
-/**
- * Close modal
- */
+// Close modal
 function closeModal() {
     const modal = document.getElementById('messageModal');
-    modal.style.display = 'none';
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
 }
 
-/**
- * Handle clicks outside modal to close it
- */
-window.addEventListener('click', function(event) {
-    const modal = document.getElementById('messageModal');
-    if (event.target === modal) {
-        closeModal();
-    }
-});
-
-/**
- * Utility function to format numbers with Arabic localization
- * @param {number} number - The number to format
- * @returns {string} - Formatted number
- */
+// Utility function to format numbers with Arabic localization
 function formatArabicNumber(number) {
     return number.toLocaleString('ar-DZ');
 }
 
-/**
- * Initialize price animations on page load
- */
+// Check spam protection
+function checkSpamProtection() {
+    const lastOrderTime = localStorage.getItem(SPAM_PROTECTION.lastOrderTime);
+    if (lastOrderTime) {
+        const timeDiff = Date.now() - parseInt(lastOrderTime);
+        if (timeDiff < SPAM_PROTECTION.cooldownTime) {
+            const remainingTime = Math.ceil((SPAM_PROTECTION.cooldownTime - timeDiff) / 1000);
+            showModal(`يرجى الانتظار ${remainingTime} ثانية قبل إرسال طلب آخر`, 'error');
+            return false;
+        }
+    }
+    return true;
+}
+
+// Scroll to order form
+function scrollToOrderForm() {
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+
+// Handle floating button visibility
+function handleFloatingButtonVisibility() {
+    const floatingBtn = document.querySelector('.floating-order-btn');
+    const orderForm = document.getElementById('orderForm');
+    
+    if (!floatingBtn || !orderForm) return;
+    
+    const orderFormRect = orderForm.getBoundingClientRect();
+    const isOrderFormVisible = orderFormRect.top <= window.innerHeight && orderFormRect.bottom >= 0;
+    
+    if (isOrderFormVisible) {
+        floatingBtn.style.display = 'none';
+    } else {
+        floatingBtn.style.display = 'flex';
+    }
+}
+
+// Initialize price animations
 function initializePriceAnimations() {
-    const priceElements = document.querySelectorAll('.current-price, .original-price');
+    const priceElements = document.querySelectorAll('.price-animate');
     priceElements.forEach(element => {
         element.classList.add('fade-in');
     });
 }
 
-/**
- * Check spam protection - prevent duplicate orders within cooldown period
- * @returns {boolean} - Whether the user can submit an order
- */
-function checkSpamProtection() {
-    const lastOrderTime = localStorage.getItem(SPAM_PROTECTION.lastOrderTime);
-    
-    if (lastOrderTime) {
-        const timeDiff = Date.now() - parseInt(lastOrderTime);
-        const remainingTime = SPAM_PROTECTION.cooldownTime - timeDiff;
-        
-        if (remainingTime > 0) {
-            const remainingSeconds = Math.ceil(remainingTime / 1000);
-            showModal(`تم تقديم طلب مسبقاً. يرجى الانتظار ${remainingSeconds} ثانية قبل تقديم طلب جديد.`, 'error');
-            return false;
-        }
+// Handle clicks outside modal to close it
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('messageModal');
+    if (modal && event.target === modal) {
+        closeModal();
     }
-    
-    return true;
-}
+});
 
-/**
- * Scroll to order form when floating button is clicked
- */
-function scrollToOrderForm() {
-    const orderForm = document.getElementById('orderForm');
-    if (orderForm) {
-        orderForm.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-        });
-        
-        // Focus on first input field
-        setTimeout(() => {
-            const firstInput = orderForm.querySelector('input[type="text"]');
-            if (firstInput) {
-                firstInput.focus();
-            }
-        }, 500);
-    }
-}
+// Handle scroll for floating button
+window.addEventListener('scroll', handleFloatingButtonVisibility);
 
-/**
- * Hide floating button when user is near the form
- */
-function handleFloatingButtonVisibility() {
-    const floatingBtn = document.getElementById('floatingOrderBtn');
-    const orderForm = document.getElementById('orderForm');
-    
-    if (!floatingBtn || !orderForm) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                floatingBtn.style.display = 'none';
-            } else {
-                floatingBtn.style.display = 'flex';
-            }
-        });
-    }, {
-        threshold: 0.3
-    });
-    
-    observer.observe(orderForm);
-}
-
-// Initialize price animations when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializePriceAnimations);
-
-// Initialize floating button visibility handler
-document.addEventListener('DOMContentLoaded', handleFloatingButtonVisibility);
-
-// Export functions for external use if needed
+// Export functions for external use
 window.ProductLandingPage = {
     changeMainImage,
     changeQuantity,
     selectColor,
     selectSize,
+    handleWilayaChange,
+    selectDeliveryType,
     updateOrderSummary,
     showModal,
     closeModal,
