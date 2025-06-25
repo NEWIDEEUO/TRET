@@ -10,7 +10,7 @@ const PRODUCT_CONFIG = {
     basePrice: 4900,
     originalPrice: 5500,
     discountPercentage: 11,
-    productName: 'منبه الحرمين ha-3005',
+    productName: 'صندال رجالي عصري 2 في واحد',
     currency: 'د.ج'
 };
 
