@@ -99,6 +99,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - July 07, 2025. MULTI-ITEM PRICING SYSTEM: Implemented different pricing logic for multiple items. Single item: fixed 4500 DZD. Multiple items: (2500 + 1000) × quantity + actual delivery cost. Updated order summary and Telegram calculations to handle both scenarios correctly.
 - July 07, 2025. DISCOUNT NOTIFICATION UI: Added visual discount notification in order summary that appears when customers order 2+ items. Shows savings comparison between regular price (4500 × quantity) and discounted price. Green gradient styling with icon integration. Hidden for single item orders.
 - July 07, 2025. FACEBOOK PIXEL OPTIMIZATION: Fixed Facebook Pixel Purchase event to track actual customer payment amounts instead of internal costs. Updated tracking logic to match new pricing system: single item (4500 DZD) vs multiple items ((2500+1000)×quantity+delivery). Ensures pixel data matches customer payments and Telegram messages.
+- July 07, 2025. FACEBOOK PIXEL ID UPDATE: Changed Facebook Pixel ID from 2495737634127216 to 1659197954765777 in all files. Updated both the init function and noscript fallback in index.html to use the new pixel ID for proper tracking.
 
 ## User Preferences
 
