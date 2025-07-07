@@ -7,9 +7,9 @@ const TELEGRAM_CONFIG = {
 
 // Product configuration
 const PRODUCT_CONFIG = {
-    basePrice: 2500,
-    originalPrice: 2800,
-    discountPercentage: 11,
+    basePrice: 4500,
+    originalPrice: 5000,
+    discountPercentage: 10,
     productName: "صندال رجالي عصري 2 في واحد",
     currency: "د.ج",
     defaultColor: "Pink",
@@ -477,8 +477,7 @@ function updateOrderSummary() {
         console.log("Updated color:", summaryColor.textContent);
     }
     if (summaryDelivery) {
-        summaryDelivery.textContent =
-            formatArabicNumber(deliveryPrice) + " د.ج";
+        summaryDelivery.textContent = "مجاني";
         console.log("Updated delivery:", summaryDelivery.textContent);
     } else {
         console.log("summaryDelivery element not found");
