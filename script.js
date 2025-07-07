@@ -316,7 +316,7 @@ function updateDeliveryPrice() {
             selectedDeliveryType === "home" ? "المنزل" : "المكتب";
         const iconClass =
             selectedDeliveryType === "home" ? "fa-home" : "fa-building";
-        deliveryPriceElement.innerHTML = `<i class="fas ${iconClass}" style="margin-left: 8px;"></i>تكلفة التوصيل إلى ${deliveryTypeText}: <strong>${formatArabicNumber(deliveryPrice)} ${PRODUCT_CONFIG.currency}</strong>`;
+        deliveryPriceElement.innerHTML = `<i class="fas ${iconClass}" style="margin-left: 8px;"></i>التوصيل إلى ${deliveryTypeText}: <strong>متوفر</strong>`;
         deliveryPriceElement.style.color = "#28a745";
         deliveryPriceElement.style.background = "#d4edda";
         deliveryPriceElement.style.borderColor = "#c3e6cb";
