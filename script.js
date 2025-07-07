@@ -435,8 +435,15 @@ function updateOrderSummary() {
     // Calculate total price (internal real price)
     const totalPrice = productPrice + deliveryPrice;
     
-    // Display price (fixed for customer)
-    const displayTotalPrice = PRODUCT_CONFIG.displayPrice * quantity;
+    // Display price calculation - different for single vs multiple items
+    let displayTotalPrice;
+    if (quantity === 1) {
+        // Single item: fixed price of 4500 DZD
+        displayTotalPrice = PRODUCT_CONFIG.displayPrice;
+    } else {
+        // Multiple items: (2500 + 1000) × quantity + delivery
+        displayTotalPrice = (PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice;
+    }
 
     // Get selected color
     const selectedColor =
@@ -810,9 +817,18 @@ async function sendTelegramNotifications(orderData) {
 <b>المبلغ الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
 
 📊 <b>تحليل الفائدة:</b>
-السعر المدفوع من العميل: ${(PRODUCT_CONFIG.displayPrice * quantity).toLocaleString()} ${PRODUCT_CONFIG.currency}
+السعر المدفوع من العميل: ${(() => {
+    if (quantity === 1) {
+        return PRODUCT_CONFIG.displayPrice.toLocaleString();
+    } else {
+        return ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice).toLocaleString();
+    }
+})()} ${PRODUCT_CONFIG.currency}
 التكلفة الحقيقية: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
-<b>الفائدة الصافية: ${((PRODUCT_CONFIG.displayPrice * quantity) - totalPrice).toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
+<b>الفائدة الصافية: ${(() => {
+    const customerPaid = quantity === 1 ? PRODUCT_CONFIG.displayPrice : ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice);
+    return (customerPaid - totalPrice).toLocaleString();
+})()} ${PRODUCT_CONFIG.currency}</b>
 
 ⏰ تاريخ الطلب: ${new Date().toLocaleString("ar-DZ")}
 🆔 معرف الطلب: #${Date.now().toString().slice(-6)}
