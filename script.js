@@ -812,9 +812,21 @@ async function sendTelegramNotifications(orderData) {
 اللون: ${selectedColorFrench}
 
 💰 <b>تفاصيل السعر:</b>
-سعر المنتج: ${productPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
+سعر المنتج: ${(() => {
+    if (quantity === 1) {
+        return (PRODUCT_CONFIG.displayPrice).toLocaleString();
+    } else {
+        return ((PRODUCT_CONFIG.basePrice + 1000) * quantity).toLocaleString();
+    }
+})()} ${PRODUCT_CONFIG.currency}
 تكلفة التوصيل: ${deliveryPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
-<b>المبلغ الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
+<b>المبلغ الإجمالي: ${(() => {
+    if (quantity === 1) {
+        return (PRODUCT_CONFIG.displayPrice + deliveryPrice).toLocaleString();
+    } else {
+        return ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice).toLocaleString();
+    }
+})()} ${PRODUCT_CONFIG.currency}</b>
 
 📊 <b>تحليل الفائدة:</b>
 السعر المدفوع من العميل: ${(() => {
