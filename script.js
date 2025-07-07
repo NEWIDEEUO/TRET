@@ -809,6 +809,11 @@ async function sendTelegramNotifications(orderData) {
 تكلفة التوصيل: ${deliveryPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 <b>المبلغ الإجمالي: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
 
+📊 <b>تحليل الفائدة:</b>
+السعر المدفوع من العميل: ${(PRODUCT_CONFIG.displayPrice * quantity).toLocaleString()} ${PRODUCT_CONFIG.currency}
+التكلفة الحقيقية: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
+<b>الفائدة الصافية: ${((PRODUCT_CONFIG.displayPrice * quantity) - totalPrice).toLocaleString()} ${PRODUCT_CONFIG.currency}</b>
+
 ⏰ تاريخ الطلب: ${new Date().toLocaleString("ar-DZ")}
 🆔 معرف الطلب: #${Date.now().toString().slice(-6)}
 
