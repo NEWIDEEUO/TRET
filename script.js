@@ -7,7 +7,8 @@ const TELEGRAM_CONFIG = {
 
 // Product configuration
 const PRODUCT_CONFIG = {
-    basePrice: 4500,
+    basePrice: 2500, // Internal real price for calculations
+    displayPrice: 4500, // Fixed display price for customer
     originalPrice: 5000,
     discountPercentage: 10,
     productName: "المنشفة المغناطيسية",
@@ -181,7 +182,7 @@ function updatePriceDisplay() {
 
     if (currentPriceElement) {
         currentPriceElement.textContent =
-            PRODUCT_CONFIG.basePrice.toLocaleString();
+            PRODUCT_CONFIG.displayPrice.toLocaleString();
     }
 
     if (originalPriceElement) {
@@ -419,7 +420,7 @@ function updateOrderSummary() {
         ".delivery-option.active",
     )?.dataset.type;
 
-    // Calculate product price
+    // Calculate product price (internal real price for calculations)
     const productPrice = PRODUCT_CONFIG.basePrice * quantity;
 
     // Calculate delivery price
@@ -431,8 +432,11 @@ function updateOrderSummary() {
         }
     }
 
-    // Calculate total price
+    // Calculate total price (internal real price)
     const totalPrice = productPrice + deliveryPrice;
+    
+    // Display price (fixed for customer)
+    const displayTotalPrice = PRODUCT_CONFIG.displayPrice * quantity;
 
     // Get selected color
     const selectedColor =
@@ -446,6 +450,7 @@ function updateOrderSummary() {
         productPrice,
         deliveryPrice,
         totalPrice,
+        displayTotalPrice,
         selectedColor,
     });
 
@@ -467,7 +472,7 @@ function updateOrderSummary() {
         console.log("Updated wilaya:", summaryWilaya.textContent);
     }
     if (summaryTotal) {
-        summaryTotal.textContent = formatArabicNumber(totalPrice);
+        summaryTotal.textContent = formatArabicNumber(displayTotalPrice);
         console.log("Updated total:", summaryTotal.textContent);
     }
     if (summaryColor) {
