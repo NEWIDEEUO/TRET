@@ -12,8 +12,7 @@ const PRODUCT_CONFIG = {
     discountPercentage: 11,
     productName: "صندال رجالي عصري 2 في واحد",
     currency: "د.ج",
-    defaultColor: "Light Brown",
-    defaultSize: "40",
+    defaultColor: "Pink",
 };
 
 // DELIVERY CONFIGURATION WITH EXACT USER DATA
@@ -175,29 +174,7 @@ function selectColor(selectedOption) {
     updateOrderSummary();
 }
 
-// Handle size selection - FIXED VERSION
-function selectSize(selectedOption) {
-    console.log("Size selected:", selectedOption.dataset.size);
 
-    // Remove active class from all size options and reset styles completely
-    const sizeOptions = document.querySelectorAll(".size-circle");
-    sizeOptions.forEach((option) => {
-        option.classList.remove("active");
-        option.setAttribute(
-            "style",
-            "width: 45px; height: 45px; border-radius: 12px; background: white; color: #495057; border: 2px solid #dee2e6; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);",
-        );
-    });
-
-    // Add active class and highlight selected option
-    selectedOption.classList.add("active");
-    selectedOption.setAttribute(
-        "style",
-        "width: 45px; height: 45px; border-radius: 12px; background: #007bff; color: white; border: 2px solid #007bff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);",
-    );
-
-    updateOrderSummary();
-}
 
 // Update price display
 function updatePriceDisplay() {
@@ -459,13 +436,10 @@ function updateOrderSummary() {
     // Calculate total price
     const totalPrice = productPrice + deliveryPrice;
 
-    // Get selected color and size
+    // Get selected color
     const selectedColor =
         document.querySelector(".color-circle.active")?.dataset.color ||
         PRODUCT_CONFIG.defaultColor;
-    const selectedSize =
-        document.querySelector(".size-circle.active")?.dataset.size ||
-        PRODUCT_CONFIG.defaultSize;
 
     console.log("Summary values:", {
         quantity,
@@ -475,7 +449,6 @@ function updateOrderSummary() {
         deliveryPrice,
         totalPrice,
         selectedColor,
-        selectedSize,
     });
 
     // Update summary elements
@@ -483,7 +456,6 @@ function updateOrderSummary() {
     const summaryWilaya = document.getElementById("summaryWilaya");
     const summaryTotal = document.getElementById("summaryTotal");
     const summaryColor = document.getElementById("summaryColor");
-    const summarySize = document.getElementById("summarySize");
     const summaryDelivery = document.getElementById("summaryDelivery");
 
     if (summaryQuantity) {
@@ -503,10 +475,6 @@ function updateOrderSummary() {
     if (summaryColor) {
         summaryColor.textContent = selectedColor;
         console.log("Updated color:", summaryColor.textContent);
-    }
-    if (summarySize) {
-        summarySize.textContent = selectedSize;
-        console.log("Updated size:", summarySize.textContent);
     }
     if (summaryDelivery) {
         summaryDelivery.textContent =
@@ -765,12 +733,6 @@ function validateOrder(orderData) {
         errors.push("• يرجى اختيار اللون");
     }
 
-    // Validate size selection
-    const selectedSize = document.querySelector(".size-circle.active");
-    if (!selectedSize) {
-        errors.push("• يرجى اختيار القياس");
-    }
-
     if (errors.length > 0) {
         showModal(
             "لا يمكن إتمام الطلب، تأكد من إدخال جميع البيانات بشكل صحيح",
@@ -785,9 +747,9 @@ function validateOrder(orderData) {
 // Translate color names to French
 function translateColorToFrench(colorName) {
     const colorTranslations = {
-        'Light Brown': 'Marron Clair',
-        'Dark Brown': 'Marron Foncé',
-        'Black': 'Noir'
+        'Pink': 'Rose',
+        'Light Blue': 'Bleu Clair',
+        'White': 'Blanc'
     };
     return colorTranslations[colorName] || colorName;
 }
@@ -801,9 +763,6 @@ async function sendTelegramNotifications(orderData) {
         document.querySelector(".color-circle.active")?.dataset.color ||
         PRODUCT_CONFIG.defaultColor;
     const selectedColorFrench = translateColorToFrench(selectedColor);
-    const selectedSize =
-        document.querySelector(".size-circle.active")?.dataset.size ||
-        PRODUCT_CONFIG.defaultSize;
     const selectedDeliveryType =
         document.querySelector(".delivery-option.active")?.dataset.type ||
         "home";
@@ -842,7 +801,6 @@ async function sendTelegramNotifications(orderData) {
 المنتج: ${PRODUCT_CONFIG.productName}
 الكمية: ${orderData.quantity}
 اللون: ${selectedColorFrench}
-المقاس: ${selectedSize}
 
 💰 <b>تفاصيل السعر:</b>
 سعر المنتج: ${productPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
@@ -1044,7 +1002,6 @@ window.ProductLandingPage = {
     changeMainImage,
     changeQuantity,
     selectColor,
-    selectSize,
     handleWilayaChange,
     selectDeliveryType,
     updateOrderSummary,
