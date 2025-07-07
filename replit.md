@@ -94,6 +94,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - June 25, 2025. PRODUCT IMAGES UPDATE: Replaced all 4 product images with new sandal images. Updated main image and thumbnail gallery to show brown and black leather sandals with detailed product views including sole design.
 - June 25, 2025. TELEGRAM COLOR TRANSLATION: Added French color translation for Telegram messages. Color names now appear in French (Marron Clair, Marron Foncé, Noir) while keeping rest of message content in Arabic.
 - June 25, 2025. ASSETS CLEANUP: Cleaned attached_assets folder from 39 files to 4 essential product images. Removed all unused images, temporary text files, and PNG files. Kept only the 4 current product images in use by the landing page.
+- July 07, 2025. COMPLETE PRODUCT CHANGE: Changed entire product from men's sandals to magnetic towel. Updated product name, description, and features. Removed size selection system completely. Updated color options to Pink, Light Blue, and White. Updated pricing to 4500/5000 DZD with 10% discount. Changed delivery display to show "free" while preserving real costs in Telegram messages.
 
 ## User Preferences
 
