@@ -101,6 +101,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - July 07, 2025. FACEBOOK PIXEL OPTIMIZATION: Fixed Facebook Pixel Purchase event to track actual customer payment amounts instead of internal costs. Updated tracking logic to match new pricing system: single item (4500 DZD) vs multiple items ((2500+1000)×quantity+delivery). Ensures pixel data matches customer payments and Telegram messages.
 - July 07, 2025. FACEBOOK PIXEL ID UPDATE: Changed Facebook Pixel ID from 2495737634127216 to 1659197954765777 in all files. Updated both the init function and noscript fallback in index.html to use the new pixel ID for proper tracking.
 - July 07, 2025. PRODUCT IMAGES UPDATE: Updated all 4 product images to new magnetic towel images showing actual usage scenarios (beach scenes, hands demonstrating magnetic closure mechanism, and different color variants).
+- July 07, 2025. DELIVERY PRICING UPDATE: Comprehensive update of all delivery prices for all 58 Algerian provinces. Updated home and office delivery costs according to new pricing structure. Added TINDOUF to unavailable provinces list (no delivery service). Modified specific prices for multiple provinces including Batna (500/370), Alger (600/520), Tlemcen (950/620), and others. All calculations, Telegram messages, and profit analysis systems remain intact with new pricing data.
 
 ## User Preferences
 
