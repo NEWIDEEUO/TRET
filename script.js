@@ -652,11 +652,10 @@ async function handleOrderSubmission(event) {
         // Show success message
         showModal("تم إرسال الطلب بنجاح", "success");
 
-        // Track Facebook Pixel Purchase event with complete order value
+        // Track Facebook Pixel Purchase event with customer payment amount
         if (typeof fbq !== "undefined") {
-            // Calculate the complete order value (product price + delivery price)
+            // Calculate the actual amount customer pays (not internal costs)
             const quantity = parseInt(orderData.quantity) || 1;
-            const productPrice = PRODUCT_CONFIG.basePrice * quantity;
             const selectedDeliveryType =
                 document.querySelector(".delivery-option.active")?.dataset
                     .type || "home";
@@ -672,15 +671,23 @@ async function handleOrderSubmission(event) {
                 }
             }
 
-            const totalOrderValue = productPrice + deliveryPrice;
+            // Calculate customer payment amount (same logic as order summary)
+            let customerPayment;
+            if (quantity === 1) {
+                // Single item: fixed price of 4500 DZD
+                customerPayment = PRODUCT_CONFIG.displayPrice;
+            } else {
+                // Multiple items: (2500 + 1000) × quantity + delivery
+                customerPayment = (PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice;
+            }
 
             fbq("track", "Purchase", {
-                value: totalOrderValue,
+                value: customerPayment,
                 currency: "DZD",
             });
             console.log(
-                "Facebook Pixel: Purchase event tracked with value:",
-                totalOrderValue,
+                "Facebook Pixel: Purchase event tracked with customer payment:",
+                customerPayment,
                 "DZD",
             );
         }
