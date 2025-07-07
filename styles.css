@@ -543,6 +543,20 @@ body {
     font-size: 13px;
 }
 
+.summary-discount {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 8px 0;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
 .summary-divider {
     height: 1px;
     background: #dee2e6;

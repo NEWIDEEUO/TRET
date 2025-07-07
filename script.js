@@ -492,6 +492,23 @@ function updateOrderSummary() {
     } else {
         console.log("summaryDelivery element not found");
     }
+
+    // Update discount display for multiple items
+    const summaryDiscount = document.getElementById("summaryDiscount");
+    const discountText = document.getElementById("discountText");
+    
+    if (summaryDiscount && discountText) {
+        if (quantity > 1) {
+            const originalPrice = PRODUCT_CONFIG.displayPrice * quantity;
+            const discountedPrice = displayTotalPrice;
+            discountText.textContent = `تم تخفيض السعر من ${originalPrice.toLocaleString()} إلى ${discountedPrice.toLocaleString()} دينار لأنك طلبت ${quantity} قطع`;
+            summaryDiscount.style.display = "flex";
+            console.log("Updated discount display:", discountText.textContent);
+        } else {
+            summaryDiscount.style.display = "none";
+            console.log("Hidden discount display for single item");
+        }
+    }
 }
 
 // Enhanced validation for individual form field

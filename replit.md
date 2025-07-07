@@ -97,6 +97,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - July 07, 2025. COMPLETE PRODUCT CHANGE: Changed entire product from men's sandals to magnetic towel. Updated product name, description, and features. Removed size selection system completely. Updated color options to Pink, Light Blue, and White. Updated pricing to 4500/5000 DZD with 10% discount. Changed delivery display to show "free" while preserving real costs in Telegram messages.
 - July 07, 2025. DUAL PRICING SYSTEM: Implemented dual pricing system where customers see fixed price of 4500 DZD (including free delivery) while internal calculations use real costs (2500 DZD per product + actual delivery costs). Added profit calculation section to Telegram messages showing customer payment vs real costs and net profit.
 - July 07, 2025. MULTI-ITEM PRICING SYSTEM: Implemented different pricing logic for multiple items. Single item: fixed 4500 DZD. Multiple items: (2500 + 1000) × quantity + actual delivery cost. Updated order summary and Telegram calculations to handle both scenarios correctly.
+- July 07, 2025. DISCOUNT NOTIFICATION UI: Added visual discount notification in order summary that appears when customers order 2+ items. Shows savings comparison between regular price (4500 × quantity) and discounted price. Green gradient styling with icon integration. Hidden for single item orders.
 
 ## User Preferences
 
