@@ -103,6 +103,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - July 07, 2025. PRODUCT IMAGES UPDATE: Updated all 4 product images to new magnetic towel images showing actual usage scenarios (beach scenes, hands demonstrating magnetic closure mechanism, and different color variants).
 - July 07, 2025. DELIVERY PRICING UPDATE: Comprehensive update of all delivery prices for all 58 Algerian provinces. Updated home and office delivery costs according to new pricing structure. Added TINDOUF to unavailable provinces list (no delivery service). Modified specific prices for multiple provinces including Batna (500/370), Alger (600/520), Tlemcen (950/620), and others. All calculations, Telegram messages, and profit analysis systems remain intact with new pricing data.
 - July 07, 2025. DELIVERY INTERFACE UPDATE: Hidden delivery prices from frontend interface. When customers select delivery type, they now see "متوفر" (available) instead of actual prices. Internal calculations and pricing system remain unchanged. All backend systems continue to work with real pricing data.
+- July 07, 2025. TELEGRAM PRICING FIX: Fixed Telegram message total amount calculation for single item orders. When quantity = 1, total amount now shows 4500 DZD (fixed price) instead of 4500 + delivery cost. Delivery cost still appears separately in the message. Multi-item pricing logic unchanged.
 
 ## User Preferences
 

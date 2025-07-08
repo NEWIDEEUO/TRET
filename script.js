@@ -846,7 +846,7 @@ async function sendTelegramNotifications(orderData) {
 تكلفة التوصيل: ${deliveryPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 <b>المبلغ الإجمالي: ${(() => {
     if (quantity === 1) {
-        return (PRODUCT_CONFIG.displayPrice + deliveryPrice).toLocaleString();
+        return (PRODUCT_CONFIG.displayPrice).toLocaleString();
     } else {
         return ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice).toLocaleString();
     }
