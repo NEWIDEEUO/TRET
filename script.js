@@ -76,7 +76,12 @@ const DELIVERY_CONFIG = {
 };
 
 // Completely unavailable provinces (marked as لا يوجد توصيل)
-const UNAVAILABLE_PROVINCES = ["ILLIZI", "BORDJ_BADJI_MOKHTAR", "DJANET", "TINDOUF"];
+const UNAVAILABLE_PROVINCES = [
+    "ILLIZI",
+    "BORDJ_BADJI_MOKHTAR",
+    "DJANET",
+    "TINDOUF",
+];
 
 // Anti-spam configuration - Updated to 30 seconds
 const SPAM_PROTECTION = {
@@ -434,7 +439,7 @@ function updateOrderSummary() {
 
     // Calculate total price (internal real price)
     const totalPrice = productPrice + deliveryPrice;
-    
+
     // Display price calculation - different for single vs multiple items
     let displayTotalPrice;
     if (quantity === 1) {
@@ -442,7 +447,8 @@ function updateOrderSummary() {
         displayTotalPrice = PRODUCT_CONFIG.displayPrice;
     } else {
         // Multiple items: (2500 + 1000) × quantity + delivery
-        displayTotalPrice = (PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice;
+        displayTotalPrice =
+            (PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice;
     }
 
     // Get selected color
@@ -496,7 +502,7 @@ function updateOrderSummary() {
     // Update discount display for multiple items
     const summaryDiscount = document.getElementById("summaryDiscount");
     const discountText = document.getElementById("discountText");
-    
+
     if (summaryDiscount && discountText) {
         if (quantity > 1) {
             const originalPrice = PRODUCT_CONFIG.displayPrice * quantity;
@@ -678,7 +684,9 @@ async function handleOrderSubmission(event) {
                 customerPayment = PRODUCT_CONFIG.displayPrice;
             } else {
                 // Multiple items: (2500 + 1000) × quantity + delivery
-                customerPayment = (PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice;
+                customerPayment =
+                    (PRODUCT_CONFIG.basePrice + 1000) * quantity +
+                    deliveryPrice;
             }
 
             fbq("track", "Purchase", {
@@ -837,34 +845,46 @@ async function sendTelegramNotifications(orderData) {
 
 💰 <b>تفاصيل السعر:</b>
 سعر المنتج: ${(() => {
-    if (quantity === 1) {
-        return (PRODUCT_CONFIG.displayPrice).toLocaleString();
-    } else {
-        return ((PRODUCT_CONFIG.basePrice + 1000) * quantity).toLocaleString();
-    }
-})()} ${PRODUCT_CONFIG.currency}
+        if (quantity === 1) {
+            return PRODUCT_CONFIG.displayPrice.toLocaleString();
+        } else {
+            return (
+                (PRODUCT_CONFIG.basePrice + 1000) *
+                quantity
+            ).toLocaleString();
+        }
+    })()} ${PRODUCT_CONFIG.currency}
 تكلفة التوصيل: ${deliveryPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 <b>المبلغ الإجمالي: ${(() => {
-    if (quantity === 1) {
-        return (PRODUCT_CONFIG.displayPrice).toLocaleString();
-    } else {
-        return ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice).toLocaleString();
-    }
-})()} ${PRODUCT_CONFIG.currency}</b>
+        if (quantity === 1) {
+            return PRODUCT_CONFIG.displayPrice.toLocaleString();
+        } else {
+            return (
+                (PRODUCT_CONFIG.basePrice + 1000) * quantity +
+                deliveryPrice
+            ).toLocaleString();
+        }
+    })()} ${PRODUCT_CONFIG.currency}</b>
 
 📊 <b>تحليل الفائدة:</b>
 السعر المدفوع من العميل: ${(() => {
-    if (quantity === 1) {
-        return PRODUCT_CONFIG.displayPrice.toLocaleString();
-    } else {
-        return ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice).toLocaleString();
-    }
-})()} ${PRODUCT_CONFIG.currency}
+        if (quantity === 1) {
+            return PRODUCT_CONFIG.displayPrice.toLocaleString();
+        } else {
+            return (
+                (PRODUCT_CONFIG.basePrice + 1000) * quantity +
+                deliveryPrice
+            ).toLocaleString();
+        }
+    })()} ${PRODUCT_CONFIG.currency}
 التكلفة الحقيقية: ${totalPrice.toLocaleString()} ${PRODUCT_CONFIG.currency}
 <b>الفائدة الصافية: ${(() => {
-    const customerPaid = quantity === 1 ? PRODUCT_CONFIG.displayPrice : ((PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice);
-    return (customerPaid - totalPrice).toLocaleString();
-})()} ${PRODUCT_CONFIG.currency}</b>
+        const customerPaid =
+            quantity === 1
+                ? PRODUCT_CONFIG.displayPrice
+                : (PRODUCT_CONFIG.basePrice + 1000) * quantity + deliveryPrice;
+        return (customerPaid - totalPrice).toLocaleString();
+    })()} ${PRODUCT_CONFIG.currency}</b>
 
 ⏰ تاريخ الطلب: ${new Date().toLocaleString("ar-DZ")}
 🆔 معرف الطلب: #${Date.now().toString().slice(-6)}
