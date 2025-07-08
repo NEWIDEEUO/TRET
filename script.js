@@ -8,9 +8,9 @@ const TELEGRAM_CONFIG = {
 // Product configuration
 const PRODUCT_CONFIG = {
     basePrice: 2500, // Internal real price for calculations
-    displayPrice: 4500, // Fixed display price for customer
+    displayPrice: 4300, // Fixed display price for customer
     originalPrice: 5000,
-    discountPercentage: 10,
+    discountPercentage: 14,
     productName: "المنشفة المغناطيسية",
     currency: "د.ج",
     defaultColor: "Pink",
@@ -438,7 +438,7 @@ function updateOrderSummary() {
     // Display price calculation - different for single vs multiple items
     let displayTotalPrice;
     if (quantity === 1) {
-        // Single item: fixed price of 4500 DZD
+        // Single item: fixed price of 4300 DZD
         displayTotalPrice = PRODUCT_CONFIG.displayPrice;
     } else {
         // Multiple items: (2500 + 1000) × quantity + delivery
@@ -674,7 +674,7 @@ async function handleOrderSubmission(event) {
             // Calculate customer payment amount (same logic as order summary)
             let customerPayment;
             if (quantity === 1) {
-                // Single item: fixed price of 4500 DZD
+                // Single item: fixed price of 4300 DZD
                 customerPayment = PRODUCT_CONFIG.displayPrice;
             } else {
                 // Multiple items: (2500 + 1000) × quantity + delivery

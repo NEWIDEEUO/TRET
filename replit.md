@@ -104,6 +104,7 @@ This is a responsive Arabic landing page template for product sales with integra
 - July 07, 2025. DELIVERY PRICING UPDATE: Comprehensive update of all delivery prices for all 58 Algerian provinces. Updated home and office delivery costs according to new pricing structure. Added TINDOUF to unavailable provinces list (no delivery service). Modified specific prices for multiple provinces including Batna (500/370), Alger (600/520), Tlemcen (950/620), and others. All calculations, Telegram messages, and profit analysis systems remain intact with new pricing data.
 - July 07, 2025. DELIVERY INTERFACE UPDATE: Hidden delivery prices from frontend interface. When customers select delivery type, they now see "متوفر" (available) instead of actual prices. Internal calculations and pricing system remain unchanged. All backend systems continue to work with real pricing data.
 - July 07, 2025. TELEGRAM PRICING FIX: Fixed Telegram message total amount calculation for single item orders. When quantity = 1, total amount now shows 4500 DZD (fixed price) instead of 4500 + delivery cost. Delivery cost still appears separately in the message. Multi-item pricing logic unchanged.
+- July 08, 2025. PRICE REDUCTION UPDATE: Updated fixed price from 4500 DZD to 4300 DZD for single item orders. Updated discount percentage from 10% to 14% (calculated from 5000 DZD original price). Changes applied to: product configuration, HTML display price, order summary, Telegram messages, and Facebook Pixel tracking. Multi-item pricing logic preserved.
 
 ## User Preferences
 
